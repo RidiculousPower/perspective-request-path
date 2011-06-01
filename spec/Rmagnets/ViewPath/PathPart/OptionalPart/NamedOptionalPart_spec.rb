@@ -3,9 +3,9 @@
 #--------------------------------  Rmagnets View Path Named Optional Part  ---------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-require_relative '../../../lib/rmagnets-view-path.rb'
+require_relative '../../../../lib/rmagnets-view-path.rb'
 
-describe Rmagnets::ViewPath::NamedOptionalPart do
+describe Rmagnets::ViewPath::OptionalPart::Named do
 
   $option1 = Rmagnets::ViewPath::Variable.new( :option1 )
   $option2 = Rmagnets::ViewPath::Variable.new( :option2 )
@@ -14,7 +14,7 @@ describe Rmagnets::ViewPath::NamedOptionalPart do
   $path    = Rmagnets::ViewPath::Constant.new( 'path' )
   $part    = Rmagnets::ViewPath::Constant.new( 'part' )
   $optional_descriptor_hash = { :option_name1 => $option1, :option_name2 => $option2, :option_group1 => { :option_name3 => $option3, :option_group2 => { :option_name4 => $option4 } } }
-  $optional_part = Rmagnets::ViewPath::NamedOptionalPart.new( $optional_descriptor_hash )
+  $optional_part = Rmagnets::ViewPath::OptionalPart::Named.new( $optional_descriptor_hash )
 	
 	#############################################
 	#  path_parts_remaining_after_optional_set  #

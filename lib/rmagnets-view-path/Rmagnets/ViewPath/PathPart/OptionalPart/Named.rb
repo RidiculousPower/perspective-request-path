@@ -3,7 +3,7 @@
 #--------------------------------  Rmagnets View Path Named Optional Part  ---------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-class Rmagnets::ViewPath::NamedOptionalPart < Rmagnets::ViewPath::OptionalPart
+class Rmagnets::ViewPath::OptionalPart::Named < Rmagnets::ViewPath::OptionalPart
 
 	################
 	#  initialize  #

@@ -15,12 +15,10 @@ class Rmagnets
 		class MultipathVariable
 		end
 		class OptionalPart
-		end
-		class NamedOptionalPart < Rmagnets::ViewPath::OptionalPart
+			class Named < Rmagnets::ViewPath::OptionalPart
+			end
 		end
 		class RegularExpression < Regexp
-			class Multipath < Rmagnets::ViewPath::RegularExpression
-			end
 		end
 		module PathPart
 		end
@@ -43,11 +41,10 @@ require_relative 'rmagnets-view-path/Hash/Nested.rb'
 ###########################################################################################################
 
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath.rb'
-require_relative 'rmagnets-view-path/Rmagnets/ViewPath/Constant.rb'
-require_relative 'rmagnets-view-path/Rmagnets/ViewPath/Variable.rb'
-require_relative 'rmagnets-view-path/Rmagnets/ViewPath/MultipathVariable.rb'
-require_relative 'rmagnets-view-path/Rmagnets/ViewPath/NamedOptionalPart.rb'
-require_relative 'rmagnets-view-path/Rmagnets/ViewPath/OptionalPart.rb'
-require_relative 'rmagnets-view-path/Rmagnets/ViewPath/RegularExpression.rb'
-require_relative 'rmagnets-view-path/Rmagnets/ViewPath/RegularExpression/Multipath.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/Constant.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/Variable.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/OptionalPart/Named.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/OptionalPart.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/RegularExpression.rb'
+

@@ -15,7 +15,7 @@ describe Rmagnets::ViewPath::RegularExpression do
 
     regexp_path_part = Rmagnets::ViewPath::RegularExpression.new( /path_part(\d*)/ )
     remaining_descriptor_elements = []
-  
+
     # one matching part
     remaining_request_path_parts  = [ 'path_part' ]
     regexp_path_part.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'path_part' ]
