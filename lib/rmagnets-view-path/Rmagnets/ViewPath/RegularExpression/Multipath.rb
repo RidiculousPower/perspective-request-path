@@ -1,10 +1,8 @@
 
 #-----------------------------------------------------------------------------------------------------------#
-#---------------------------------  Rmagnets View Path Optional Path Part  ---------------------------------#
+#-----------------------------  Rmagnets View Path Multipath Regular Expression  ---------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-module Rmagnets::ViewPath::PathPart::Optional
+class Rmagnets::ViewPath::RegularExpression::Multipath < Rmagnets::ViewPath::RegularExpression
 
-
-	
 end

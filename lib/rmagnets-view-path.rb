@@ -18,6 +18,10 @@ class Rmagnets
 		end
 		class NamedOptionalPart < Rmagnets::ViewPath::OptionalPart
 		end
+		class RegularExpression < Regexp
+			class Multipath < Rmagnets::ViewPath::RegularExpression
+			end
+		end
 		module PathPart
 		end
 	end
@@ -44,4 +48,6 @@ require_relative 'rmagnets-view-path/Rmagnets/ViewPath/Variable.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/MultipathVariable.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/NamedOptionalPart.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/OptionalPart.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/RegularExpression.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/RegularExpression/Multipath.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart.rb'
