@@ -445,6 +445,12 @@ describe Rmagnets::ViewPath do
       path_parts     = [ 'not_some_regexp13' ]
       match_path_descriptor( descriptors.dup, path_parts ).should == nil
 
+      # any path
+      any_part  = '*'.extend( Rmagnets::ViewPath::PathPart::AnyParts )
+      descriptors    = [ any_part ]
+      path_parts     = [ 'anything', 'any', 'other', 'part', 'as', 'well' ]
+      match_path_descriptor( descriptors, path_parts ).should == [ 'anything', 'any', 'other', 'part', 'as', 'well' ]
+
       # constant, variable, regexp
       descriptors    = [ constant_part, variable_part, regexp_part ]
       path_parts     = [ 'some_path', 'anything', 'some_regexp12' ]
@@ -534,6 +540,24 @@ describe Rmagnets::ViewPath do
       match_paths( '/some_regexp42' ).should == [ 'some_regexp42' ]
       match_paths( 'some_regexp42/other_path' ).should == nil
       match_paths( 'other_path' ).should == nil
+      match_paths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # any path
+      path( '*' )
+      match_paths( 'some_regexp42' ).should == [ 'some_regexp42' ]
+      match_paths( '/some_regexp42' ).should == [ 'some_regexp42' ]
+      match_paths( 'some_regexp42/other_path' ).should == [ 'some_regexp42', 'other_path' ]
+      match_paths( 'other_path' ).should == [ 'other_path' ]
+      match_paths( '' ).should == [ '/' ]
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # any path ending
+      path( 'some_path*' )
+      match_paths( 'some_path/some_regexp42' ).should == [ 'some_path', 'some_regexp42' ]
+      match_paths( 'some_path/some_regexp42' ).should == [ 'some_path', 'some_regexp42' ]
+      match_paths( 'some_path/some_regexp42/other_path' ).should == [ 'some_path', 'some_regexp42', 'other_path' ]
+      match_paths( 'some_path/other_path' ).should == [ 'some_path', 'other_path' ]
       match_paths( '' ).should == nil
     end
     Rmagnets::ViewPath.new( :name ).instance_eval do

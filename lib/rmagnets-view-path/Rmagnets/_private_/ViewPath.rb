@@ -76,7 +76,7 @@ class Rmagnets::ViewPath
 			if this_part.empty?
 
 				next
-
+				
 			# * variable individual path fragment embedded in path fragment, individual or multiple ( '%individual_variable_fragment%' )
 			elsif variable_path_fragment?( this_part )
 

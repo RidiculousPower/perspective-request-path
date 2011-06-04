@@ -612,12 +612,18 @@ class Rmagnets::ViewPath
 
 		# this viewpath can have multiple paths that match; first one works
 		while this_descriptor = descriptor_elements.shift
-			if path_parts.empty? or ! this_descriptor.match_request( descriptor_elements, path_parts )
+			if ( path_parts.empty?  and 
+				   ! this_descriptor.is_a?( Rmagnets::ViewPath::PathPart::AnyParts ) ) or 
+				 ! this_descriptor.match_request( descriptor_elements, path_parts )
+
 				# we ran out of parts but still have descriptors
 				failed = true
 				break
+
 			else
+
 				matched_path_parts.concat( this_descriptor.matched_paths )
+
 			end
 		end
 		
