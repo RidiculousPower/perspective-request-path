@@ -88,6 +88,20 @@ class Rmagnets::ViewPath
 				regexp = this_part.slice( 1, this_part.length - 1 )
 				regularized_path_parts.push( Regexp.new( regexp ).extend( Rmagnets::ViewPath::PathPart::RegularExpression ) )
 
+			elsif anypath_path_fragment?( this_part )
+
+				# two possibilities:
+				# * pathpart*
+				# * pathpart/* => *
+				
+				anypath_parts = this_part.split( '*' )
+				
+				unless anypath_parts.empty?
+					regularized_path_parts.push( anypath_parts[ 0 ].extend( Rmagnets::ViewPath::PathPart::Constant ) )
+				end
+
+				regularized_path_parts.push( '*'.extend( Rmagnets::ViewPath::PathPart::AnyParts ) )
+
 			# * individual path fragment ( path )
 			else
 
@@ -116,6 +130,14 @@ class Rmagnets::ViewPath
 
 	def regexp_path_fragment?( path_fragment )
 		return path_fragment[ 0 ] == RegexpDelimiter && path_fragment[ path_fragment.length - 1 ] == RegexpDelimiter
+	end
+
+  ############################
+  #  anypath_path_fragment?  #
+  ############################
+
+	def anypath_path_fragment?( path_fragment )
+		return path_fragment[ path_fragment.length - 1 ] == AnyPathDelimiter
 	end
 	
 end

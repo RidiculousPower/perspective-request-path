@@ -805,4 +805,202 @@ describe Rmagnets::ViewPath do
     end
   end
 
+	###############################
+  #  match_tailpath_descriptor  #
+  ###############################
+
+  it 'can match against a single declared tailpath' do
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+    
+      # constant
+      constant_part  = 'some_path'.extend( Rmagnets::ViewPath::PathPart::Constant )
+      descriptors    = [ constant_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'some_path' ]
+      match_tailpath_descriptor( descriptors, path_parts ).should == [ 'some_path' ]
+      non_matching_path   = [ 'non_matching_path' ]
+      match_tailpath_descriptor( descriptors, non_matching_path ).should == nil
+      non_matching_path   = [ 'some_path', 'non_matching_path' ]
+      match_tailpath_descriptor( descriptors, non_matching_path ).should == nil
+
+      # multipath constant
+      constant_part  = 'some_path'.extend( Rmagnets::ViewPath::PathPart::Constant )
+      other_constant_part  = 'other_path'.extend( Rmagnets::ViewPath::PathPart::Constant )
+      descriptors    = [ constant_part, other_constant_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'some_path', 'other_path' ]
+      match_tailpath_descriptor( descriptors, path_parts ).should == [ 'some_path', 'other_path' ]
+      non_matching_path   = [ 'non_matching_path' ]
+      match_tailpath_descriptor( descriptors, non_matching_path ).should == nil
+      non_matching_path   = [ 'some_path', 'non_matching_path' ]
+      match_tailpath_descriptor( descriptors, non_matching_path ).should == nil
+      non_matching_path   = [ 'some_path', 'other_path', 'non_matching_path' ]
+      match_tailpath_descriptor( descriptors, non_matching_path ).should == nil
+
+      # variable
+      variable_part  = Rmagnets::ViewPath::PathPart::Variable.new( :any_path )
+      descriptors    = [ variable_part ]
+      path_parts     = [ 'anything' ]
+      match_tailpath_descriptor( descriptors, path_parts ).should == [ 'anything' ]
+
+      # regexp
+      regexp_part  = Regexp.new( 'some_regexp(\d*)' ).extend( Rmagnets::ViewPath::PathPart::RegularExpression )
+      descriptors    = [ regexp_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'some_regexp12' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'some_regexp12' ]
+      path_parts     = [ 'some_regexp37' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'some_regexp37' ]
+      path_parts     = [ 'some_regexp' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'some_regexp' ]
+      path_parts     = [ 'not_some_regexp' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == nil
+      path_parts     = [ 'not_some_regexp13' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == nil
+
+      # constant, variable, regexp
+      descriptors    = [ constant_part, variable_part, regexp_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'some_path', 'anything', 'some_regexp12' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'some_path', 'anything', 'some_regexp12' ]
+      non_matching_path   = [ 'some_path', 'anything', 'some_regexp12', 'moar' ]
+      match_tailpath_descriptor( descriptors.dup, non_matching_path ).should == nil
+
+      # constant, regexp, variable
+      descriptors    = [ constant_part, regexp_part, variable_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'some_path', 'some_regexp12', 'anything' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'some_path', 'some_regexp12', 'anything' ]
+      non_matching_path   = [ 'some_path', 'some_regexp12', 'anything', 'moar' ]
+      match_tailpath_descriptor( descriptors.dup, non_matching_path ).should == nil
+    
+      # variable, constant, regexp
+      descriptors    = [ variable_part, constant_part, regexp_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'anything', 'some_path', 'some_regexp12' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'anything', 'some_path', 'some_regexp12' ]
+      non_matching_path   = [ 'anything', 'some_path', 'some_regexp12', 'moar' ]
+      match_tailpath_descriptor( descriptors.dup, non_matching_path ).should == nil
+
+      # variable, regexp, constant
+      descriptors    = [ variable_part, regexp_part, constant_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'anything', 'some_regexp12', 'some_path' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'anything', 'some_regexp12', 'some_path' ]
+      non_matching_path   = [ 'anything', 'some_regexp12', 'some_path', 'moar' ]
+      match_tailpath_descriptor( descriptors.dup, non_matching_path ).should == nil
+    
+      # regexp, constant, variable
+      descriptors    = [ regexp_part, constant_part, variable_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'some_regexp12', 'some_path', 'anything' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'some_regexp12', 'some_path', 'anything' ]
+      non_matching_path   = [ 'some_regexp12', 'some_path', 'anything', 'moar' ]
+      match_tailpath_descriptor( descriptors.dup, non_matching_path ).should == nil
+
+      # regexp, variable, constant
+      descriptors    = [ regexp_part, variable_part, constant_part ]
+      path_parts     = [ 'some_other_part', 'something_else', 'some_regexp12', 'anything', 'some_path' ]
+      match_tailpath_descriptor( descriptors.dup, path_parts ).should == [ 'some_regexp12', 'anything', 'some_path' ]
+      non_matching_path   = [ 'some_regexp12', 'anything', 'some_path', 'moar' ]
+      match_tailpath_descriptor( descriptors.dup, non_matching_path ).should == nil
+    
+    end
+    
+  end
+  
+  #####################
+  #  match_tailpaths  #
+  #####################
+
+  it 'can match the request path against all declared base paths' do
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # constant
+      tailpath( 'some_path' )
+      match_tailpaths( 'some_other_part/something_else/some_path' ).should == [ 'some_path' ]
+      match_tailpaths( 'other_path/some_path' ).should == [ 'some_path' ]
+      match_tailpaths( 'other_path' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # multipath constant
+      tailpath( 'some_path/other_path' )
+      match_tailpaths( 'some_other_part/something_else/some_path/other_path' ).should == [ 'some_path', 'other_path' ]
+      match_tailpaths( 'another_path/some_path' ).should == nil
+      match_tailpaths( 'some_path' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # variable
+      tailpath( :random_path )
+      match_tailpaths( 'some_other_part/something_else/anything' ).should == [ 'anything' ]
+      match_tailpaths( 'something_else/anything' ).should == [ 'anything' ]
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # regexp
+      tailpath( /some_regexp(\d*)/ )
+      match_tailpaths( 'some_other_part/something_else/some_regexp42' ).should == [ 'some_regexp42' ]
+      match_tailpaths( 'other_path/some_regexp42' ).should == [ 'some_regexp42' ]
+      match_tailpaths( 'other_path' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # constant, variable, regexp
+      tailpath( 'some_path', :random_path, /some_regexp(\d*)/ )
+      match_tailpaths( '/some_other_part/something_else/some_path/anything/some_regexp42' ).should == [ 'some_path', 'anything', 'some_regexp42' ]
+      match_tailpaths( 'some_path/anything/some_regexp42' ).should == [ 'some_path', 'anything', 'some_regexp42' ]
+      match_tailpaths( 'other_path/not_regexp' ).should == nil
+      match_tailpaths( 'other_path/not_regexp/some_regexp' ).should == nil
+      match_tailpaths( 'other_path/not_regexp/something_else' ).should == nil
+      match_tailpaths( 'some_path' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # constant, regexp, variable
+      tailpath( 'some_path', /some_regexp(\d*)/, :random_path )
+      match_tailpaths( 'some_other_part/something_else/some_path/some_regexp42/anything' ).should == [ 'some_path', 'some_regexp42', 'anything' ]
+      match_tailpaths( 'something_else/some_path/some_regexp42/anything' ).should == [ 'some_path', 'some_regexp42', 'anything' ]
+      match_tailpaths( 'some_path/some_regexp42' ).should == nil
+      match_tailpaths( 'some_path' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # variable, constant, regexp
+      tailpath( :random_path, 'some_path', /some_regexp(\d*)/ )
+      match_tailpaths( 'some_other_part/something_else/anything/some_path/some_regexp42' ).should == [ 'anything', 'some_path', 'some_regexp42' ]
+      match_tailpaths( 'something_else/anything/some_path/some_regexp42' ).should == [ 'anything', 'some_path', 'some_regexp42' ]
+      match_tailpaths( 'anything/some_path/something_else' ).should == nil
+      match_tailpaths( 'anything/something_else' ).should == nil
+      match_tailpaths( 'anything/some_path' ).should == nil
+      match_tailpaths( 'anything' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # variable, regexp, constant
+      tailpath( :random_path, /some_regexp(\d*)/, 'some_path' )
+      match_tailpaths( 'some_other_part/something_else/anything/some_regexp42/some_path' ).should == [ 'anything', 'some_regexp42', 'some_path' ]
+      match_tailpaths( 'something_else/anything/some_regexp42/some_path' ).should == [ 'anything', 'some_regexp42', 'some_path' ]
+      match_tailpaths( 'anything/some_regexp42' ).should == nil
+      match_tailpaths( 'anything/some_path' ).should == nil
+      match_tailpaths( 'anything/something_else' ).should == nil
+      match_tailpaths( 'anything' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # regexp, constant, variable
+      tailpath( /some_regexp(\d*)/, 'some_path', :random_path )
+      match_tailpaths( 'some_other_part/something_else/some_regexp42/some_path/anything' ).should == [ 'some_regexp42', 'some_path', 'anything' ]
+      match_tailpaths( 'something_else/some_regexp42/some_path/anything' ).should == [ 'some_regexp42', 'some_path', 'anything' ]
+      match_tailpaths( 'some_regexp42/anything' ).should == nil
+      match_tailpaths( 'some_path/anything' ).should == nil
+      match_tailpaths( 'something_else/anything' ).should == nil
+      match_tailpaths( 'some_regexp42/anything' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
+      # regexp, variable, constant
+      tailpath( /some_regexp(\d*)/, :random_path, 'some_path' )
+      match_tailpaths( 'some_other_part/something_else/some_regexp42/anything/some_path' ).should == [ 'some_regexp42', 'anything', 'some_path' ]
+      match_tailpaths( 'something_else/some_regexp42/anything/some_path' ).should == [ 'some_regexp42', 'anything', 'some_path' ]
+      match_tailpaths( 'some_regexp42/anything' ).should == nil
+      match_tailpaths( 'some_path/anything' ).should == nil
+      match_tailpaths( 'something_else/anything' ).should == nil
+      match_tailpaths( 'some_regexp42/anything' ).should == nil
+      match_tailpaths( '' ).should == nil
+    end
+  end
+
 end

@@ -8,10 +8,14 @@ class Rmagnets::ViewPath
 	attr_accessor	:name
 	attr_writer		:scheme, :method, :host, :ip, :port, :referer, :user_agent
 	attr_reader		:schemes, :request_methods, :hosts, :ips, :ports, :referers, :user_agents, 
-								:paths, :basepaths, :configuration_block_proc, :render_stack
+								:paths, :basepaths, :tailpaths, :configuration_block_proc, :render_stack
 
+	# path strings with %name% are converted to :name
 	VariableDelimiter		= '%'
+	# path strings with #regexp# are converted to /regexp/
 	RegexpDelimiter			= '#'
+	# path strings that end with * capture all end paths
+	AnyPathDelimiter		= '*'
 
 	RenderStackBindingStruct = Struct.new( :name, :view_class, :configuration_block_proc )
 	RenderStackViewStruct    = Struct.new( :view_class, :configuration_block_proc )
@@ -34,6 +38,7 @@ class Rmagnets::ViewPath
 
 		@paths 										= Array.new
 		@basepaths 								= Array.new
+		@tailpaths 								= Array.new
 
 		@matched_path_variables		= Array.new
 		@render_stack							= Array.new
@@ -265,28 +270,6 @@ class Rmagnets::ViewPath
 	
 	end
 	
-	##############
-  #  basepath  #
-  ##############
-
-  def basepath( *path_parts )
-
-		@basepaths.push( regularized_path_parts( path_parts ) )
-		
-		return self
-
-	end
-	
-	#####################
-  #  delete_basepath  #
-  #####################
-
-  def delete_basepath( index )
-	
-		@basepaths.delete_at( index )
-	
-	end
-	
 	##########
   #  path  #
   ##########
@@ -322,6 +305,51 @@ class Rmagnets::ViewPath
 		return self
 		
 	end
+
+	##############
+  #  basepath  #
+  ##############
+
+  def basepath( *path_parts )
+
+		@basepaths.push( regularized_path_parts( path_parts ) )
+		
+		return self
+
+	end
+	
+	#####################
+  #  delete_basepath  #
+  #####################
+
+  def delete_basepath( index )
+	
+		@basepaths.delete_at( index )
+	
+	end
+	
+	##############
+  #  tailpath  #
+  ##############
+
+  def tailpath( *path_parts )
+
+		@tailpaths.push( regularized_path_parts( path_parts ) )
+		
+		return self
+
+	end
+	
+	#####################
+  #  delete_tailpath  #
+  #####################
+
+  def delete_tailpath( index )
+	
+		@tailpaths.delete_at( index )
+	
+	end
+	
 	
 	##########
   #  bind  #
@@ -595,6 +623,42 @@ class Rmagnets::ViewPath
 		
 		matched_path_parts = nil if matched_path_parts.empty? or failed
 		
+		return matched_path_parts
+		
+	end
+
+  #####################
+  #  match_tailpaths  #
+  #####################
+
+	def match_tailpaths( request_path )
+
+		matched_tailpath = nil
+
+		# get path parts array from request path
+		path_parts = path_fragments_for_path( request_path )
+
+		# this viewpath can have multiple paths that match
+		# iterate through path parts to check against request path
+		tailpaths.each do |this_tailpath_descriptor_array|
+			break if matched_tailpath = match_tailpath_descriptor( this_tailpath_descriptor_array.dup, path_parts.dup )
+		end
+
+		return matched_tailpath
+
+	end
+	
+  ###############################
+  #  match_tailpath_descriptor  #
+  ###############################
+
+	def match_tailpath_descriptor( descriptor_elements, path_parts )
+		
+		# reverse descriptor elements and path parts and match basepath
+		matched_path_parts = match_basepath_descriptor( descriptor_elements.reverse, path_parts.reverse )
+		
+		matched_path_parts = matched_path_parts.reverse if matched_path_parts
+
 		return matched_path_parts
 		
 	end

@@ -8,6 +8,8 @@ require_relative '../../view-xhtml/lib/rmagnets-view-xhtml.rb'
 
 class Rmagnets
 	class ViewPath
+		class AnyParts
+		end
 		class Constant < String
 		end
 		class Variable
@@ -38,6 +40,7 @@ require_relative 'rmagnets-view-path/Hash/Nested.rb'
 
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart.rb'
+require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/AnyParts.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/Constant.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/Variable.rb'
 require_relative 'rmagnets-view-path/Rmagnets/ViewPath/PathPart/OptionalPart.rb'
