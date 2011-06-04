@@ -7,7 +7,7 @@ class Rmagnets::ViewPath
 
 	attr_accessor	:name
 	attr_writer		:scheme, :method, :host, :ip, :port, :referer, :user_agent
-	attr_reader		:schemes, :methods, :hosts, :ips, :ports, :referers, :user_agents, 
+	attr_reader		:schemes, :request_methods, :hosts, :ips, :ports, :referers, :user_agents, 
 								:paths, :basepaths, :configuration_block_proc, :render_stack
 
 	VariableDelimiter		= '%'
@@ -25,7 +25,7 @@ class Rmagnets::ViewPath
 		@name 										= name
 
 		@schemes 									= Array.new
-		@methods 									= Array.new
+		@request_methods 									= Array.new
 		@hosts 										= Array.new
 		@ips 											= Array.new
 		@ports 										= Array.new
@@ -66,16 +66,16 @@ class Rmagnets::ViewPath
 		
   end
 
-	############
-  #  method  #
-  ############
+	####################
+  #  request_method  #
+  ####################
 
-  def method( *methods )
+  def request_method( *request_methods )
 		
-		if methods[ 0 ].is_a?( Array )
-			@methods = methods[ 0 ]
+		if request_methods[ 0 ].is_a?( Array )
+			@request_methods = request_methods[ 0 ]
 		else
-			@methods.concat( methods.collect { |this_method| this_method.to_s.upcase.to_sym } ).uniq!
+			@request_methods.concat( request_methods.collect { |this_method| this_method.to_s.upcase.to_sym } ).uniq!
 		end
 		
 		return self
@@ -88,7 +88,7 @@ class Rmagnets::ViewPath
 
   def get
 	
-		method( :GET )
+		request_method( :GET )
 		
 		return self
 		
@@ -100,7 +100,7 @@ class Rmagnets::ViewPath
 
   def put
 	
-		method( :PUT )
+		request_method( :PUT )
 		
 		return self
 		
@@ -112,7 +112,7 @@ class Rmagnets::ViewPath
 
   def post
 	
-		method( :POST )
+		request_method( :POST )
 		
 		return self
 		
@@ -124,19 +124,19 @@ class Rmagnets::ViewPath
 
   def delete
 	
-		method( :DELETE )
+		request_method( :DELETE )
 		
 		return self
 		
   end
 
-	###################
-  #  delete_method  #
-  ###################
+	###########################
+  #  delete_request_method  #
+  ###########################
 
-	def delete_method( *methods )
+	def delete_request_method( *request_methods )
 		
-		@methods -= methods.collect { |this_method| this_method.to_s.upcase.to_sym }
+		@request_methods -= request_methods.collect { |this_method| this_method.to_s.upcase.to_sym }
 		
 		return self
 		
@@ -380,7 +380,7 @@ class Rmagnets::ViewPath
 		matched = false
 
 		if	match_scheme( request.scheme )					and
-				match_method( request.method )					and
+				request_request_method( request.request_method )	and
 				match_host( request.host )							and
 				match_ip( request.ip )									and
 				match_port( request.port )							and
@@ -415,11 +415,11 @@ class Rmagnets::ViewPath
   #  match_method  #
   ##################
 
-	def match_method( request_method )
+	def request_request_method( request_method )
 
 		matched_method = false
 		
-		if @methods.empty? or @methods.include?( request_method )
+		if @request_methods.empty? or @request_methods.include?( request_method )
 			matched_method = true
 		end
 		
@@ -534,9 +534,18 @@ class Rmagnets::ViewPath
 
 	def match_path_descriptor( descriptor_elements, path_parts )
 
-		matched_path_parts = match_basepath_descriptor( descriptor_elements, path_parts )
-		
-		matched_path_parts = nil if descriptor_elements.empty? and ! path_parts.empty?
+		# if we start with no descriptors and no path parts we match '' or '/' to '/'
+		if descriptor_elements.empty? and path_parts.empty?
+
+			matched_path_parts = [ '/' ]
+
+		else
+			
+			matched_path_parts = match_basepath_descriptor( descriptor_elements, path_parts )
+
+			matched_path_parts = nil if descriptor_elements.empty? and ! path_parts.empty?
+			
+		end
 		
 		return matched_path_parts
 		
@@ -589,5 +598,5 @@ class Rmagnets::ViewPath
 		return matched_path_parts
 		
 	end
-
+	
 end

@@ -27,58 +27,58 @@ describe Rmagnets::ViewPath do
     end
   end
 
-	############
-  #  method  #
-  ############
+	####################
+  #  request_method  #
+  ####################
 
   it 'can specify one or more schemes (ie. GET/PUT/POST/DELETE); default is [ GET, PUT, POST, DELETE ]' do
     Rmagnets::ViewPath.new( :name ).instance_eval do
-      methods.include?( :GET ).should == false
-      methods.include?( :PUT ).should == false
-      methods.include?( :POST ).should == false
-      methods.include?( :DELETE ).should == false
+      request_methods.include?( :GET ).should == false
+      request_methods.include?( :PUT ).should == false
+      request_methods.include?( :POST ).should == false
+      request_methods.include?( :DELETE ).should == false
 
-      method( :GET )
-      methods.include?( :GET ).should == true
-      methods.should == [ :GET ]
-      methods.delete( :GET )
-      methods.include?( :GET ).should == false
-      method( :get )
-      methods.include?( :GET ).should == true
-      methods.should == [ :GET ]
+      request_method( :GET )
+      request_methods.include?( :GET ).should == true
+      request_methods.should == [ :GET ]
+      request_methods.delete( :GET )
+      request_methods.include?( :GET ).should == false
+      request_method( :get )
+      request_methods.include?( :GET ).should == true
+      request_methods.should == [ :GET ]
 
-      method( :PUT )
-      methods.include?( :PUT ).should == true
-      methods.should == [ :GET, :PUT ]
-      methods.delete( :PUT )
-      methods.include?( :PUT ).should == false
-      method( :put )
-      methods.include?( :PUT ).should == true
-      methods.should == [ :GET, :PUT ]
+      request_method( :PUT )
+      request_methods.include?( :PUT ).should == true
+      request_methods.should == [ :GET, :PUT ]
+      request_methods.delete( :PUT )
+      request_methods.include?( :PUT ).should == false
+      request_method( :put )
+      request_methods.include?( :PUT ).should == true
+      request_methods.should == [ :GET, :PUT ]
 
-      method( :POST )
-      methods.include?( :POST ).should == true
-      methods.should == [ :GET, :PUT, :POST ]
-      methods.delete( :POST )
-      methods.include?( :POST ).should == false
-      method( :post )
-      methods.include?( :POST ).should == true
-      methods.should == [ :GET, :PUT, :POST ]
+      request_method( :POST )
+      request_methods.include?( :POST ).should == true
+      request_methods.should == [ :GET, :PUT, :POST ]
+      request_methods.delete( :POST )
+      request_methods.include?( :POST ).should == false
+      request_method( :post )
+      request_methods.include?( :POST ).should == true
+      request_methods.should == [ :GET, :PUT, :POST ]
 
-      method( :DELETE )
-      methods.include?( :DELETE ).should == true
-      methods.should == [ :GET, :PUT, :POST, :DELETE ]
-      methods.delete( :DELETE )
-      methods.include?( :DELETE ).should == false
-      method( :delete )
-      methods.include?( :DELETE ).should == true
-      methods.should == [ :GET, :PUT, :POST, :DELETE ]
+      request_method( :DELETE )
+      request_methods.include?( :DELETE ).should == true
+      request_methods.should == [ :GET, :PUT, :POST, :DELETE ]
+      request_methods.delete( :DELETE )
+      request_methods.include?( :DELETE ).should == false
+      request_method( :delete )
+      request_methods.include?( :DELETE ).should == true
+      request_methods.should == [ :GET, :PUT, :POST, :DELETE ]
 
-      method( [ :GET, :PUT ] )
-      methods.should == [ :GET, :PUT ]
+      request_method( [ :GET, :PUT ] )
+      request_methods.should == [ :GET, :PUT ]
 
-      method( [ :POST, :PUT ] )
-      methods.should == [ :POST, :PUT ]
+      request_method( [ :POST, :PUT ] )
+      request_methods.should == [ :POST, :PUT ]
 
     end
   end
@@ -88,7 +88,7 @@ describe Rmagnets::ViewPath do
   #########
 
   it 'can specify GET' do
-    Rmagnets::ViewPath.new( :name ).get.methods.should == [ :GET ]
+    Rmagnets::ViewPath.new( :name ).get.request_methods.should == [ :GET ]
   end
 
 	#########
@@ -96,7 +96,7 @@ describe Rmagnets::ViewPath do
   #########
 
   it 'can specify PUT' do
-    Rmagnets::ViewPath.new( :name ).put.methods.should == [ :PUT ]
+    Rmagnets::ViewPath.new( :name ).put.request_methods.should == [ :PUT ]
   end
 
 	##########
@@ -104,7 +104,7 @@ describe Rmagnets::ViewPath do
   ##########
 
   it 'can specify POST' do
-    Rmagnets::ViewPath.new( :name ).post.methods.should == [ :POST ]
+    Rmagnets::ViewPath.new( :name ).post.request_methods.should == [ :POST ]
   end
 
 	############
@@ -112,24 +112,24 @@ describe Rmagnets::ViewPath do
   ############
 
   it 'can specify DELETE' do
-    Rmagnets::ViewPath.new( :name ).delete.methods.should == [ :DELETE ]
+    Rmagnets::ViewPath.new( :name ).delete.request_methods.should == [ :DELETE ]
   end
 
 	###################
-  #  delete_method  #
+  #  delete_request_method  #
   ###################
 
   it 'can remove a method that has previously been permitted' do
     Rmagnets::ViewPath.new( :name ).instance_eval do
-      methods.should == []
-      method( :PUT )
-      methods.should == [ :PUT ]
-      delete_method( :PUT )
-      methods.should == []
-      method( :PUT )
-      methods.should == [ :PUT ]
-      delete_method( :put )
-      methods.should == []
+      request_methods.should == []
+      request_method( :PUT )
+      request_methods.should == [ :PUT ]
+      delete_request_method( :PUT )
+      request_methods.should == []
+      request_method( :PUT )
+      request_methods.should == [ :PUT ]
+      delete_request_method( :put )
+      request_methods.should == []
     end
   end
   
@@ -286,34 +286,34 @@ describe Rmagnets::ViewPath do
   it 'can match method scheme vs. request method' do
     Rmagnets::ViewPath.new( :name ).instance_eval do
 
-      match_method( :GET ).should == true
-      match_method( :PUT ).should == true
-      match_method( :POST ).should == true
-      match_method( :DELETE ).should == true
+      request_request_method( :GET ).should == true
+      request_request_method( :PUT ).should == true
+      request_request_method( :POST ).should == true
+      request_request_method( :DELETE ).should == true
 
-      method( :GET )
-      match_method( :GET ).should == true
-      match_method( :PUT ).should == false
-      match_method( :POST ).should == false
-      match_method( :DELETE ).should == false
+      request_method( :GET )
+      request_request_method( :GET ).should == true
+      request_request_method( :PUT ).should == false
+      request_request_method( :POST ).should == false
+      request_request_method( :DELETE ).should == false
 
-      method( :PUT )
-      match_method( :GET ).should == true
-      match_method( :PUT ).should == true
-      match_method( :POST ).should == false
-      match_method( :DELETE ).should == false
+      request_method( :PUT )
+      request_request_method( :GET ).should == true
+      request_request_method( :PUT ).should == true
+      request_request_method( :POST ).should == false
+      request_request_method( :DELETE ).should == false
 
-      method( :POST )
-      match_method( :GET ).should == true
-      match_method( :PUT ).should == true
-      match_method( :POST ).should == true
-      match_method( :DELETE ).should == false
+      request_method( :POST )
+      request_request_method( :GET ).should == true
+      request_request_method( :PUT ).should == true
+      request_request_method( :POST ).should == true
+      request_request_method( :DELETE ).should == false
 
-      method( :DELETE )
-      match_method( :GET ).should == true
-      match_method( :PUT ).should == true
-      match_method( :POST ).should == true
-      match_method( :DELETE ).should == true
+      request_method( :DELETE )
+      request_request_method( :GET ).should == true
+      request_request_method( :PUT ).should == true
+      request_request_method( :POST ).should == true
+      request_request_method( :DELETE ).should == true
 
     end    
   end
@@ -496,6 +496,13 @@ describe Rmagnets::ViewPath do
 
   it 'can match the request path against all declared paths' do
     Rmagnets::ViewPath.new( :name ).instance_eval do
+      # no path
+      path( '' )
+      match_paths( '' ).should == [ '/' ]
+      match_paths( 'some_path/other_path' ).should == nil
+      match_paths( 'other_path' ).should == nil
+    end
+    Rmagnets::ViewPath.new( :name ).instance_eval do
       # constant
       path( 'some_path' )
       match_paths( 'some_path' ).should == [ 'some_path' ]
@@ -507,6 +514,7 @@ describe Rmagnets::ViewPath do
       # multipath constant
       path( 'some_path/other_path' )
       match_paths( 'some_path/other_path' ).should == [ 'some_path', 'other_path' ]
+      match_paths( '/some_path/other_path' ).should == [ 'some_path', 'other_path' ]
       match_paths( 'some_path/other_path/another_path' ).should == nil
       match_paths( 'some_path' ).should == nil
       match_paths( '' ).should == nil
@@ -515,6 +523,7 @@ describe Rmagnets::ViewPath do
       # variable
       path( :random_path )
       match_paths( 'anything' ).should == [ 'anything' ]
+      match_paths( '/anything' ).should == [ 'anything' ]
       match_paths( 'anything/another_path' ).should == nil
       match_paths( '' ).should == nil
     end
@@ -522,6 +531,7 @@ describe Rmagnets::ViewPath do
       # regexp
       path( /some_regexp(\d*)/ )
       match_paths( 'some_regexp42' ).should == [ 'some_regexp42' ]
+      match_paths( '/some_regexp42' ).should == [ 'some_regexp42' ]
       match_paths( 'some_regexp42/other_path' ).should == nil
       match_paths( 'other_path' ).should == nil
       match_paths( '' ).should == nil
@@ -530,6 +540,7 @@ describe Rmagnets::ViewPath do
       # constant, variable, regexp
       path( 'some_path', :random_path, /some_regexp(\d*)/ )
       match_paths( 'some_path/anything/some_regexp42' ).should == [ 'some_path', 'anything', 'some_regexp42' ]
+      match_paths( '/some_path/anything/some_regexp42' ).should == [ 'some_path', 'anything', 'some_regexp42' ]
       match_paths( 'some_path/other_path/not_regexp' ).should == nil
       match_paths( 'other_path/not_regexp' ).should == nil
       match_paths( 'other_path/not_regexp/some_regexp' ).should == nil
@@ -541,6 +552,7 @@ describe Rmagnets::ViewPath do
       # constant, regexp, variable
       path( 'some_path', /some_regexp(\d*)/, :random_path )
       match_paths( 'some_path/some_regexp42/anything' ).should == [ 'some_path', 'some_regexp42', 'anything' ]
+      match_paths( '/some_path/some_regexp42/anything' ).should == [ 'some_path', 'some_regexp42', 'anything' ]
       match_paths( 'some_path/some_regexp42/anything/something_else' ).should == nil
       match_paths( 'some_path/some_regexp42' ).should == nil
       match_paths( 'some_path' ).should == nil
@@ -550,6 +562,7 @@ describe Rmagnets::ViewPath do
       # variable, constant, regexp
       path( :random_path, 'some_path', /some_regexp(\d*)/ )
       match_paths( 'anything/some_path/some_regexp42' ).should == [ 'anything', 'some_path', 'some_regexp42' ]
+      match_paths( '/anything/some_path/some_regexp42' ).should == [ 'anything', 'some_path', 'some_regexp42' ]
       match_paths( 'anything/some_path/some_regexp42/something_else' ).should == nil
       match_paths( 'anything/some_path/something_else' ).should == nil
       match_paths( 'anything/something_else' ).should == nil
@@ -572,6 +585,7 @@ describe Rmagnets::ViewPath do
       # regexp, constant, variable
       path( /some_regexp(\d*)/, 'some_path', :random_path )
       match_paths( 'some_regexp42/some_path/anything' ).should == [ 'some_regexp42', 'some_path', 'anything' ]
+      match_paths( '/some_regexp42/some_path/anything' ).should == [ 'some_regexp42', 'some_path', 'anything' ]
       match_paths( 'some_regexp42/some_path/anything/something_else' ).should == nil
       match_paths( 'some_regexp42/anything' ).should == nil
       match_paths( 'some_path/anything' ).should == nil
@@ -583,6 +597,7 @@ describe Rmagnets::ViewPath do
       # regexp, variable, constant
       path( /some_regexp(\d*)/, :random_path, 'some_path' )
       match_paths( 'some_regexp42/anything/some_path' ).should == [ 'some_regexp42', 'anything', 'some_path' ]
+      match_paths( '/some_regexp42/anything/some_path' ).should == [ 'some_regexp42', 'anything', 'some_path' ]
       match_paths( 'some_regexp42/anything/some_path/something_else' ).should == nil
       match_paths( 'some_regexp42/anything' ).should == nil
       match_paths( 'some_path/anything' ).should == nil
