@@ -5,7 +5,7 @@
 
 require_relative '../../../../lib/rmagnets-view-path.rb'
 
-describe Rmagnets::ViewPath::Constant do
+describe Rmagnets::ViewPath::PathPart::Constant do
 
 	###################
 	#  match_request  #
@@ -13,9 +13,9 @@ describe Rmagnets::ViewPath::Constant do
 
   it 'can match a request path part' do
 
-    path_part  = Rmagnets::ViewPath::Constant.new( 'path_part' )
-    other_part = Rmagnets::ViewPath::Constant.new( 'other_part' )
-    junk_part  = Rmagnets::ViewPath::Constant.new( 'junkpart' )
+    path_part  = Rmagnets::ViewPath::PathPart::Constant.new( 'path_part' )
+    other_part = Rmagnets::ViewPath::PathPart::Constant.new( 'other_part' )
+    junk_part  = Rmagnets::ViewPath::PathPart::Constant.new( 'junkpart' )
     remaining_descriptor_elements = []
     
     # one matching part

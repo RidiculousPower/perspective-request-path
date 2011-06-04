@@ -3,7 +3,7 @@
 #-------------------------------------  Rmagnets View Path Constant  ---------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-class Rmagnets::ViewPath::Constant < String
+module Rmagnets::ViewPath::PathPart::Constant
 
 	include Rmagnets::ViewPath::PathPart
 	

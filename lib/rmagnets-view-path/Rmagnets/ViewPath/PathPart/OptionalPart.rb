@@ -3,19 +3,9 @@
 #----------------------------------  Rmagnets View Path Optional Part  -------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-class Rmagnets::ViewPath::OptionalPart
+module Rmagnets::ViewPath::PathPart::OptionalPart
 
 	include Rmagnets::ViewPath::PathPart
-
-	################
-	#  initialize  #
-	################
-
-	def initialize( *optional_path_parts )
-		
-		@optional_sets = optional_path_parts.nested_permutations
-				
-	end
 
 	###################
 	#  match_request  #
@@ -32,11 +22,11 @@ class Rmagnets::ViewPath::OptionalPart
 		
 		# count number of non-optional descriptors remaining
 		number_of_non_optional_descriptors_remaining	=	remaining_descriptor_elements.select do |element|
-			! element.is_a?( Rmagnets::ViewPath::OptionalPart )
+			! element.is_a?( Rmagnets::ViewPath::PathPart::OptionalPart )
 		end.count
 		
 		# for each set of possible optional parts:
-		@optional_sets.each do |this_optional_set|
+		nested_permutations.each do |this_optional_set|
 
 			# make sure we have enough path parts to accomodate the set
 			# and make sure we have enough path parts to accomodate remaining descriptors if this set matches

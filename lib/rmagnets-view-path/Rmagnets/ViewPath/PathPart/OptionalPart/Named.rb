@@ -3,18 +3,10 @@
 #--------------------------------  Rmagnets View Path Named Optional Part  ---------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-class Rmagnets::ViewPath::OptionalPart::Named < Rmagnets::ViewPath::OptionalPart
+module Rmagnets::ViewPath::PathPart::OptionalPart::Named
 
-	################
-	#  initialize  #
-	################
-
-	def initialize( optional_path_parts_hash )
-		
-		@optional_sets = optional_path_parts_hash.nested_permutations
-				
-	end
-
+	include Rmagnets::ViewPath::PathPart::OptionalPart
+	
 	###################
 	#  match_request  #
 	###################

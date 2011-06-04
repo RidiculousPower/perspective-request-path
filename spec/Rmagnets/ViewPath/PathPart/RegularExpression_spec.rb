@@ -3,9 +3,9 @@
 #--------------------------------------  Rmagnets View Path Regexp  ----------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-require_relative '../../../lib/rmagnets-view-path.rb'
+require_relative '../../../../lib/rmagnets-view-path.rb'
 
-describe Rmagnets::ViewPath::RegularExpression do
+describe Rmagnets::ViewPath::PathPart::RegularExpression do
 
   ###################
   #  match_request  #
@@ -13,7 +13,7 @@ describe Rmagnets::ViewPath::RegularExpression do
 
   it 'can match a variable request path part' do
 
-    regexp_path_part = Rmagnets::ViewPath::RegularExpression.new( /path_part(\d*)/ )
+    regexp_path_part = Regexp.new( /path_part(\d*)/ ).extend( Rmagnets::ViewPath::PathPart::RegularExpression )
     remaining_descriptor_elements = []
 
     # one matching part

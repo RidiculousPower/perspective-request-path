@@ -3,18 +3,17 @@
 #----------------------------------  Rmagnets View Path Optional Part  -------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-require_relative '../../../lib/rmagnets-view-path.rb'
+require_relative '../../../../lib/rmagnets-view-path.rb'
 
-describe Rmagnets::ViewPath::OptionalPart do
+describe Rmagnets::ViewPath::PathPart::OptionalPart do
 
-  $option1 = Rmagnets::ViewPath::Variable.new( :option1 )
-  $option2 = Rmagnets::ViewPath::Variable.new( :option2 )
-  $option3 = Rmagnets::ViewPath::Variable.new( :option3 )
-  $option4 = Rmagnets::ViewPath::Variable.new( :option4 )
-  $path    = Rmagnets::ViewPath::Constant.new( 'path' )
-  $part    = Rmagnets::ViewPath::Constant.new( 'part' )
-  $optional_descriptor_array = [ $option1, $option2, [ $option3, [ $option4 ] ] ]
-  $optional_part = Rmagnets::ViewPath::OptionalPart.new( *$optional_descriptor_array )
+  $option1 = Rmagnets::ViewPath::PathPart::Variable.new( :option1 )
+  $option2 = Rmagnets::ViewPath::PathPart::Variable.new( :option2 )
+  $option3 = Rmagnets::ViewPath::PathPart::Variable.new( :option3 )
+  $option4 = Rmagnets::ViewPath::PathPart::Variable.new( :option4 )
+  $path    = Rmagnets::ViewPath::PathPart::Constant.new( 'path' )
+  $part    = Rmagnets::ViewPath::PathPart::Constant.new( 'part' )
+  $optional_descriptor_array = [ $option1, $option2, [ $option3, [ $option4 ] ] ].extend( Rmagnets::ViewPath::PathPart::OptionalPart )
 	
 	#############################################
 	#  path_parts_remaining_after_optional_set  #
@@ -24,18 +23,18 @@ describe Rmagnets::ViewPath::OptionalPart do
 
     # full option set
     optional_set = [ $option1, $option2, $option3, $option4 ]
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4', 'path', 'other_part' ]
-    $optional_part.path_parts_remaining_after_optional_set( optional_set, remaining_request_path_parts ).should == [ 'path', 'other_part' ]
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'other_part' ]
+    $optional_descriptor_array.path_parts_remaining_after_optional_set( optional_set, remaining_request_path_parts ).should == [ 'path', 'other_part' ]
 
     # 3/4 set
     optional_set = [ $option1, $option2, $option3 ]
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4', 'path', 'other_part' ]
-    $optional_part.path_parts_remaining_after_optional_set( optional_set, remaining_request_path_parts ).should == [ 'optional_part4', 'path', 'other_part' ]
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'other_part' ]
+    $optional_descriptor_array.path_parts_remaining_after_optional_set( optional_set, remaining_request_path_parts ).should == [ 'optional_descriptor_array4', 'path', 'other_part' ]
 
     # minimal set
     optional_set = [ $option1, $option2 ]
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4', 'path', 'other_part' ]
-    $optional_part.path_parts_remaining_after_optional_set( optional_set, remaining_request_path_parts ).should == [ 'optional_part3', 'optional_part4', 'path', 'other_part' ]
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'other_part' ]
+    $optional_descriptor_array.path_parts_remaining_after_optional_set( optional_set, remaining_request_path_parts ).should == [ 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'other_part' ]
 
   end
 
@@ -48,14 +47,14 @@ describe Rmagnets::ViewPath::OptionalPart do
     optional_set = [ $option1, $option2, $option3, $option4 ]
     remaining_descriptor_elements = [ $path, $part ]
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4', 'path', 'part' ]
-    $optional_part.match_remaining_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'path', 'part' ]
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'part' ]
+    $optional_descriptor_array.match_remaining_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'path', 'part' ]
 
-    remaining_request_path_parts  = [ 'optional_part3', 'optional_part4', 'path', 'other_part' ]
-    $optional_part.match_remaining_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == nil
+    remaining_request_path_parts  = [ 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'other_part' ]
+    $optional_descriptor_array.match_remaining_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == nil
 
-    remaining_request_path_parts  = [ 'optional_part4', 'path', 'other_part' ]
-    $optional_part.match_remaining_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == nil
+    remaining_request_path_parts  = [ 'optional_descriptor_array4', 'path', 'other_part' ]
+    $optional_descriptor_array.match_remaining_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == nil
 
   end
 
@@ -68,8 +67,8 @@ describe Rmagnets::ViewPath::OptionalPart do
     optional_set = [ $option1, $option2, $option3, $option4 ]
     remaining_descriptor_elements = [ $path, $part ]
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4', 'path', 'other_part' ]
-    $optional_part.match_option_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4' ]
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'other_part' ]
+    $optional_descriptor_array.match_option_descriptors_for_optional_set( optional_set, remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4' ]
 
   end
 
@@ -81,23 +80,23 @@ describe Rmagnets::ViewPath::OptionalPart do
 
     remaining_descriptor_elements = [ $path, $part ]
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4', 'path', 'other_part' ]
-    $optional_part.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4' ]
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4', 'path', 'other_part' ]
+    $optional_descriptor_array.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4' ]
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'path', 'other_part' ]
-    $optional_part.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_part1', 'optional_part2', 'optional_part3' ] 
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'path', 'other_part' ]
+    $optional_descriptor_array.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3' ] 
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'path', 'other_part' ]
-    $optional_part.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_part1', 'optional_part2' ] 
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'path', 'other_part' ]
+    $optional_descriptor_array.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == [ 'optional_descriptor_array1', 'optional_descriptor_array2' ] 
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'optional_part4', 'other_part' ]
-    $optional_part.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == nil 
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'optional_descriptor_array4', 'other_part' ]
+    $optional_descriptor_array.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == nil 
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2', 'optional_part3', 'other_part' ]
-    $optional_part.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == nil 
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2', 'optional_descriptor_array3', 'other_part' ]
+    $optional_descriptor_array.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == nil 
 
-    remaining_request_path_parts  = [ 'optional_part1', 'optional_part2' ]
-    $optional_part.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == nil 
+    remaining_request_path_parts  = [ 'optional_descriptor_array1', 'optional_descriptor_array2' ]
+    $optional_descriptor_array.match_request( remaining_descriptor_elements, remaining_request_path_parts ).should == nil 
 
   end
 

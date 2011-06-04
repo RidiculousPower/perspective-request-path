@@ -3,9 +3,9 @@
 #-------------------------------------  Rmagnets View Path Variable  ---------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-require_relative '../../../lib/rmagnets-view-path.rb'
+require_relative '../../../../lib/rmagnets-view-path.rb'
 
-describe Rmagnets::ViewPath::Variable do
+describe Rmagnets::ViewPath::PathPart::Variable do
 
 	###################
 	#  match_request  #
@@ -13,7 +13,7 @@ describe Rmagnets::ViewPath::Variable do
 
   it 'can match a variable request path part' do
 
-    variable_path_part = Rmagnets::ViewPath::Variable.new( :path_part )
+    variable_path_part = Rmagnets::ViewPath::PathPart::Variable.new( :path_part )
     remaining_descriptor_elements = []
     
     # one matching part

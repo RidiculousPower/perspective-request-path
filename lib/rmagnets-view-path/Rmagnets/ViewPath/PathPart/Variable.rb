@@ -3,7 +3,10 @@
 #-------------------------------------  Rmagnets View Path Variable  ---------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-class Rmagnets::ViewPath::Variable
+class Rmagnets::ViewPath::PathPart::Variable
+
+	# this is the only Rmagnets::ViewPath::PathPart that is a class rather than a module
+	# this is because instances of Symbol cannot be extended
 	
 	include Rmagnets::ViewPath::PathPart
 
