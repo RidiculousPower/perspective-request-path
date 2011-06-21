@@ -382,7 +382,7 @@ class Rmagnets::ViewPath
   def view( view_class, & configuration_block_proc )
 
 		@render_stack.push( RenderStackViewStruct.new( view_class, configuration_block_proc ) )
-		
+
 		return self
 		
   end
