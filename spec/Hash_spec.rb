@@ -3,7 +3,7 @@
 #----------------------------------------------  Hash  -----------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 
-require_relative '../lib/rmagnets-view-path.rb'
+require_relative '../lib/magnets-path.rb'
 
 describe Hash do
 
@@ -12,9 +12,9 @@ describe Hash do
 	##################
 
   it 'can count the number of total elements including nested elements' do
-    nested_hash = ::Rmagnets::ViewPath::Hash::Nested.new.merge( { :one => 1, :two => 2, :three => { :one => 1, :two => 2 } } )
+    nested_hash = ::Magnets::Path::Hash::Nested.new.merge( { :one => 1, :two => 2, :three => { :one => 1, :two => 2 } } )
     nested_hash.count.should == 4
-    nested_hash = ::Rmagnets::ViewPath::Hash::Nested.new.merge( { :one => 1, :two => 2, :three => Rmagnets::ViewPath::Hash::Nested.new.merge( { :four => 4, :five => 5, :six => Rmagnets::ViewPath::Hash::Nested.new.merge( { :seven => 7, :eight => 8 } ) } ) } )
+    nested_hash = ::Magnets::Path::Hash::Nested.new.merge( { :one => 1, :two => 2, :three => ::Magnets::Path::Hash::Nested.new.merge( { :four => 4, :five => 5, :six => ::Magnets::Path::Hash::Nested.new.merge( { :seven => 7, :eight => 8 } ) } ) } )
     nested_hash.count.should == 6
   end
   
