@@ -6,8 +6,28 @@ class ::Magnets::Path::PathPart::Multiple
 	################
 	
 	def initialize( *fragments )
+    
+    @fragments = [ ]
 
-    @fragments = ::Magnets::Path::PathPart::Fragment.regularize_fragments( self, *fragments )
+    fragments.each do |this_fragment_descriptor|
+
+      case this_fragment_descriptor
+
+        when ::Magnets::Path::PathPart::Fragment
+          
+          add_fragment( this_fragment_descriptor )
+        
+        when ::String
+          
+          ::Magnets::Path::Parser.parse_path_part_string( this_fragment_descriptor, self )
+        
+        else
+          
+          raise ::ArgumentError, 'Expected ' + self.to_s + ' or string descriptor.'
+
+      end
+	  
+	  end
 	  
 	end
 	

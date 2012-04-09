@@ -59,14 +59,17 @@ class ::Magnets::Path::PathPart::Fragment::RegexpFragment
   def look_ahead_match( request_path )
     
     index = nil
+    length = nil
 	  
 	  if index = ( @regexp =~ request_path.current_fragment )
-
-	    request_path.matched_look_ahead_fragment!( index, Regexp.last_match.length )
+      
+      length = Regexp.last_match.length
+      
+	    request_path.matched_look_ahead_fragment!( index, length )
 
 	  end
 	  
-	  return index
+	  return index, length
     
   end
 	

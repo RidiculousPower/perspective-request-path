@@ -7,14 +7,12 @@ class ::Magnets::Path::PathPart::Multiple::MultipathWildcard
 	#  initialize  #
 	################
 	
-	def initialize( *multipath_descriptors )
-
-    # we can have:
-    # * string constant parts
-    # * regexp parts
-
-    @descriptors = ::Magnets::Path::PathPart.regularize_descriptors( *multipath_descriptors )
-
+	def initialize( variable_name_string_or_symbol = nil )
+    
+    if variable_name_string_or_symbol
+		  @variable_name = variable_name_string_or_symbol.to_sym
+    end
+    
 	end
 
 	###########

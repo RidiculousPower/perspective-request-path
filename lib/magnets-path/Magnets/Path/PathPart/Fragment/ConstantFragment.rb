@@ -18,9 +18,9 @@ class ::Magnets::Path::PathPart::Fragment::ConstantFragment
 	###########
 	
 	def match( request_path )
-	  
+
 	  matched = false
-	  
+
 	  if request_path.matched_fragment( self )
 	    
 	    matched = true
@@ -32,7 +32,7 @@ class ::Magnets::Path::PathPart::Fragment::ConstantFragment
   	  matched = true
 
 	  end
-	  
+
 	  return matched
 	  
   end
@@ -51,7 +51,7 @@ class ::Magnets::Path::PathPart::Fragment::ConstantFragment
 
 	  end
 	  
-	  return index
+	  return index, @constant_value.length
     
   end
   

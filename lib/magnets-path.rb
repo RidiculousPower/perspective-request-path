@@ -8,6 +8,8 @@ require_relative '../../bindings/lib/magnets-bindings.rb'
 module ::Magnets
   class Path
     class RequestPath
+      class Frame
+      end
     end
 		module PathPart
   		class Constant
@@ -21,46 +23,58 @@ module ::Magnets
   		  end
 		  end
   		class Optional
-  			class Named < ::Magnets::Path::PathPart::Optional
+  			class NamedOptional < ::Magnets::Path::PathPart::Optional
   			end
   		end
   		module Fragment
   		  class ConstantFragment
 		    end
-  		  class ExclusionFragment
-		    end
-  		  class RegexpFragment
-		    end
   		  class VariableFragment
 		    end
-  		  class WildcardFragment
+    		class MultipathVariableFragment
+  		  end
+  		  class RegexpFragment
 		    end
-  		  class MultipathWildcardFragment
+  		  class OptionalFragment
+    		  class NamedOptionalFragment < ::Magnets::Path::PathPart::Fragment::OptionalFragment
+  		    end
+		    end
+  		  class ExclusionFragment
 		    end
 		  end
 		end
 	end
 end
 
-require_relative 'magnets-path/Magnets/Path/PathPart/Fragment/ConstantFragment.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Fragment/ExclusionFragment.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Fragment/RegexpFragment.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Fragment/VariableFragment.rb'
+basepath = 'magnets-path/Magnets/Path'
 
-require_relative 'magnets-path/Magnets/Path/PathPart/Fragment.rb'
+require_relative( basepath + '/PathPart/Constant.rb' )
+require_relative( basepath + '/PathPart/Variable.rb' )
+require_relative( basepath + '/PathPart/Optional/Interface.rb' )
+require_relative( basepath + '/PathPart/Optional.rb' )
+require_relative( basepath + '/PathPart/Optional/NamedOptional/Interface.rb' )
+require_relative( basepath + '/PathPart/Optional/NamedOptional.rb' )
+require_relative( basepath + '/PathPart/Regexp.rb' )
 
-require_relative 'magnets-path/Magnets/Path/PathPart/Multiple.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Multiple/MultipathVariable.rb'
+require_relative( basepath + '/PathPart/Multiple.rb' )
+require_relative( basepath + '/PathPart/Multiple/MultipathVariable.rb' )
 
-require_relative 'magnets-path/Magnets/Path/PathPart/Constant.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Variable.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Optional.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Optional/NamedOptional.rb'
-require_relative 'magnets-path/Magnets/Path/PathPart/Regexp.rb'
+require_relative( basepath + '/PathPart/Fragment/ConstantFragment.rb' )
+require_relative( basepath + '/PathPart/Fragment/ExclusionFragment.rb' )
+require_relative( basepath + '/PathPart/Fragment/RegexpFragment.rb' )
+require_relative( basepath + '/PathPart/Fragment/VariableFragment.rb' )
+require_relative( basepath + '/PathPart/Fragment/MultipathVariableFragment.rb' )
+require_relative( basepath + '/PathPart/Fragment/OptionalFragment.rb' )
+require_relative( basepath + '/PathPart/Fragment/OptionalFragment/NamedOptionalFragment.rb' )
 
-require_relative 'magnets-path/Magnets/Path/PathPart.rb'
+require_relative( basepath + '/PathPart/Fragment.rb' )
 
-require_relative 'magnets-path/Magnets/Path/RequestPath.rb'
+require_relative( basepath + '/PathPart.rb' )
 
-require_relative 'magnets-path/Magnets/Path.rb'
+require_relative( basepath + '/RequestPath/Frame.rb' )
+require_relative( basepath + '/RequestPath.rb' )
+
+require_relative( basepath + '/Parser.rb' )
+
+require_relative( basepath + '.rb' )
 
