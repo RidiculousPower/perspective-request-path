@@ -15,6 +15,7 @@ describe ::Magnets::Path::PathPart::Fragment::VariableFragment do
     multiple = ::Magnets::Path::PathPart::Multiple.new( variable_fragment_one, constant_fragment_two, variable_fragment_three )
     path = ::Magnets::Path.new( multiple )
     request_path = ::Magnets::Path::RequestPath.new( '/left-right/', path )
+    request_path.declare_current_frame_has_fragments!
     variable_fragment_one.match( request_path ).should == true
     request_path.matched_fragment( variable_fragment_one ).should == 'left'
     constant_fragment_two.match( request_path ).should == true
@@ -31,6 +32,7 @@ describe ::Magnets::Path::PathPart::Fragment::VariableFragment do
     multiple = ::Magnets::Path::PathPart::Multiple.new( variable_fragment_one, regexp_fragment_two, variable_fragment_three )
     path = ::Magnets::Path.new( multiple )
     request_path = ::Magnets::Path::RequestPath.new( '/left-right/', path )
+    request_path.declare_current_frame_has_fragments!
     variable_fragment_one.match( request_path ).should == true
     request_path.matched_fragment( variable_fragment_one ).should == 'left'
     regexp_fragment_two.match( request_path ).should == true

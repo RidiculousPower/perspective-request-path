@@ -14,6 +14,7 @@ describe ::Magnets::Path::PathPart::Fragment::RegexpFragment do
     multiple = ::Magnets::Path::PathPart::Multiple.new( regexp_fragment_one, regexp_fragment_two )
     path = ::Magnets::Path.new( multiple )
     request_path = ::Magnets::Path::RequestPath.new( '/constant/', path )
+    request_path.declare_current_frame_has_fragments!
     regexp_fragment_three.match( request_path ).should == false
     regexp_fragment_one.match( request_path ).should == true
     regexp_fragment_two.match( request_path ).should == true

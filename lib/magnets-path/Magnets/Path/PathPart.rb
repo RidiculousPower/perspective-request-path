@@ -14,8 +14,7 @@ module ::Magnets::Path::PathPart
 		  
 			when ::String
 			  
-		    descriptor_instance = ::Magnets::Path::
-		                            Parser.parse_path_part_string( path_descriptor )
+		    descriptor_instance = ::Magnets::Path::Parser.parse_path_part_string( path_descriptor )
 			  
 		  when ::Symbol
 
@@ -39,9 +38,13 @@ module ::Magnets::Path::PathPart
         descriptor_instance = ::Magnets::Path::PathPart::Optional::
                                 NamedOptional.new( path_descriptor )
 
+      else
+  
+        descriptor_instance = path_descriptor
+        
 		end
     
-    return path_descriptor
+    return descriptor_instance
     
   end
 

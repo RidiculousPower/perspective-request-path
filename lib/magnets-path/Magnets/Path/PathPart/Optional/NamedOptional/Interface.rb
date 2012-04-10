@@ -16,9 +16,9 @@ module ::Magnets::Path::PathPart::Optional::NamedOptional::Interface
 	#  regularize_descriptors  #
 	############################
   
-  def regularize_descriptors( *optional_parts )
+  def regularize_descriptors( optional_parts_hash )
     
-    @parts_hash = parts_hash
+    @parts_hash = optional_parts_hash
     @name_for_parts_hash = { }
     
     @parts_hash.each do |this_name, this_named_optional_part|
@@ -29,8 +29,8 @@ module ::Magnets::Path::PathPart::Optional::NamedOptional::Interface
       @name_for_parts_hash[ this_named_optional_part ] = this_name
 
     end
-	  
-    @parts = parts_hash.values
+
+    @parts = @parts_hash.values
 	  
   end
 	

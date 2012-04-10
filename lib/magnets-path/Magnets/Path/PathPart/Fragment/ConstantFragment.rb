@@ -50,7 +50,7 @@ class ::Magnets::Path::PathPart::Fragment::ConstantFragment
 	    request_path.matched_look_ahead_fragment!( index, @constant_value.length )
 
 	  end
-	  
+
 	  return index, @constant_value.length
     
   end

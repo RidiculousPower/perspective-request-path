@@ -14,6 +14,7 @@ describe ::Magnets::Path::PathPart::Fragment::ConstantFragment do
     multiple = ::Magnets::Path::PathPart::Multiple.new( constant_fragment_one, constant_fragment_two )
     path = ::Magnets::Path.new( multiple )
     request_path = ::Magnets::Path::RequestPath.new( '/constant/', path )
+    request_path.declare_current_frame_has_fragments!
     constant_fragment_three.match( request_path ).should == false
     constant_fragment_one.match( request_path ).should == true
     constant_fragment_two.match( request_path ).should == true

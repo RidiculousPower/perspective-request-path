@@ -250,36 +250,19 @@ module ::Magnets::Path::PathPart::Optional::Interface
 	#  match_parts_for_configuration_struct  #
 	##########################################
   
-  def match_parts_for_configuration_struct( request_path, 
-                                            configuration_struct, 
-                                            optional_identifier = nil )
+  def match_parts_for_configuration_struct( request_path, configuration_struct )
     
     matched = false
-    
-    optional_identifier ||= ::Magnets::Path::PathPart::Optional
 
     @parts.each do |this_part|
 
       case this_part
 
-        when optional_identifier
+        when ::Magnets::Path::PathPart::Optional
 
-          # if we have no sub-options we ignore optional part
-          # similarly if sub-option is not specified
-          unless configuration_struct.sub_options
-            matched = true
-            next
-          end
-      
-          # check if this sub-option is included in this configuration
-          if sub_option_configuration_index = configuration_struct.sub_options[ this_part ]
-            matched = this_part.match( request_path, sub_option_configuration_index )
-            # if so, ask this sub-option to parse for specified configuration
-            break unless matched
-          else
-            matched = true
-            next
-          end
+          break unless matched = match_optional_configuration( request_path, 
+                                                               configuration_struct, 
+                                                               this_part )
   
         else
 
@@ -289,6 +272,39 @@ module ::Magnets::Path::PathPart::Optional::Interface
     
     end
 
+    return matched
+    
+  end
+  
+  ##################################
+	#  match_optional_configuration  #
+	##################################
+	
+  def match_optional_configuration( request_path, configuration_struct, part )
+    
+    matched = false
+    
+    # if we have no sub-options we ignore optional part
+    # similarly if sub-option is not specified
+    if configuration_struct.sub_options
+
+      # check if this sub-option is included in this configuration
+      if sub_option_configuration_index = configuration_struct.sub_options[ part ]
+
+        matched = part.match( request_path, sub_option_configuration_index )
+
+      else
+
+        matched = true
+
+      end
+    
+    else
+      
+      matched = true
+
+    end
+    
     return matched
     
   end

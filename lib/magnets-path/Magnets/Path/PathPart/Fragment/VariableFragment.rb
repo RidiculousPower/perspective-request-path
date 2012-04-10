@@ -23,14 +23,13 @@ class ::Magnets::Path::PathPart::Fragment::VariableFragment
 	  
 	  # variable captures everything so the only way to capture a variable fragment
 	  # rather than the whole path part is to look ahead to the next fragment
-	  
-	  if ! request_path.has_remaining_fragment?
+	  if ! request_path.has_remaining_fragment?( 1 )
 
       request_path.matched_fragment!( request_path.current_fragment.length )
 	  
-	  elsif matched_fragment = request_path.match_fragment_by_look_ahead
-
-      request_path.matched_fragment!( matched_fragment.length )
+	  elsif matched_fragment_index = request_path.look_ahead_fragment_match
+      
+      request_path.matched_fragment!( matched_fragment_index )
     
     end
     

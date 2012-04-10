@@ -35,18 +35,37 @@ class ::Magnets::Path
     
   end
 
-  ########################
-  #  match_request_path  #
-  ########################
+  ###########
+  #  match  #
+  ###########
 
-  def match_request_path( request_path )
+  def match( request_path )
     
     matched = false
     
     parts.each do |this_part|
       
-      break unless matched = this_part.match( request_path )
+      if request_path.matched_part( this_part )
+
+        matched = true
+        
+      else
       
+        case this_part
+
+          when ::Magnets::Path::PathPart::Optional
+
+            # optional parts can fail without implicating match status
+            matched = this_part.match( request_path )
+
+          else
+
+            break unless matched = this_part.match( request_path )
+
+        end
+        
+      end
+            
     end
     
     return matched

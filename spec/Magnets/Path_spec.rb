@@ -33,4 +33,128 @@ describe ::Magnets::Path do
     
   end
   
+  ########################
+  #  match_request_path  #
+  ########################
+  
+  it 'can match for all declared parts' do
+    
+    # Constant
+    # - followed by Constant
+    path = ::Magnets::Path.new( 'some/request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Variable
+    path = ::Magnets::Path.new( 'some', :request )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Regexp
+    path = ::Magnets::Path.new( 'some', /request/ )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Optional
+    path = ::Magnets::Path.new( 'some', [ 'request' ] )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Named Optional
+    path = ::Magnets::Path.new( 'some', :request => 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    
+    # Variable
+    # - followed by Constant
+    path = ::Magnets::Path.new( :some, 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Variable
+    path = ::Magnets::Path.new( :some, :request )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Regexp
+    path = ::Magnets::Path.new( :some, /request/ )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Optional
+    path = ::Magnets::Path.new( :some, [ 'request' ] )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Named Optional
+    path = ::Magnets::Path.new( :some, :request => 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    
+    # Regexp
+    # - followed by Constant
+    path = ::Magnets::Path.new( /some/, 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Variable
+    path = ::Magnets::Path.new( /some/, :request )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Regexp
+    path = ::Magnets::Path.new( /some/, /request/ )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Optional
+    path = ::Magnets::Path.new( /some/, [ 'request' ] )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Named Optional
+    path = ::Magnets::Path.new( /some/, :request => 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    
+    # Optional
+    # - followed by Constant
+    path = ::Magnets::Path.new( [ 'some' ], 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Variable
+    path = ::Magnets::Path.new( [ 'some' ], :request )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Regexp
+    path = ::Magnets::Path.new( [ 'some' ], /request/ )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Optional
+    path = ::Magnets::Path.new( [ 'some' ], [ 'request' ] )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    path = ::Magnets::Path.new( [ 'some' ], [ 'request' ] )
+    request_path = ::Magnets::Path::RequestPath.new( '/no/match', path )
+    request_path.match.should == false
+    path = ::Magnets::Path.new( [ 'some' ], [ 'request' ] )
+    request_path = ::Magnets::Path::RequestPath.new( '/none', path )
+    request_path.match.should == false
+    # - followed by Named Optional
+    path = ::Magnets::Path.new( [ 'some' ], :request => 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    
+    # Named Optional
+    # - followed by Constant
+    path = ::Magnets::Path.new( { :some => 'some' }, 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Variable
+    path = ::Magnets::Path.new( { :some => 'some' }, :request )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Regexp
+    path = ::Magnets::Path.new( { :some => 'some' }, /request/ )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Optional
+    path = ::Magnets::Path.new( { :some => 'some' }, [ 'request' ] )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    # - followed by Named Optional
+    path = ::Magnets::Path.new( { :some => 'some' }, :request => 'request' )
+    request_path = ::Magnets::Path::RequestPath.new( '/some/request', path )
+    request_path.match.should == true
+    
+  end
+  
 end

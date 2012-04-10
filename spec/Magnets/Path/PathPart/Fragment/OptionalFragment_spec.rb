@@ -70,66 +70,90 @@ describe ::Magnets::Path::PathPart::Fragment::OptionalFragment do
 	  path = ::Magnets::Path.new( optional_part )
 	  
 	  request_path = ::Magnets::Path::RequestPath.new( '/someconstant/', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/somebadconstant/', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == false
     
     request_path = ::Magnets::Path::RequestPath.new( '/someconstantbadpath', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
 	  request_path.current_fragment.should == 'badpath'
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherconstant/', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherotherconstant/', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == false
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherpathtoconstant/', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherpathtosomeotherconstant/', path )
+    request_path.declare_current_frame_has_fragments!
+    optional_part.match( request_path )
+	  frame_str = request_path.instance_eval do
+	    current_fragment_frame
+    end
+	  puts 'ugh: ' + frame_str.matched_for_index.to_s
 	  optional_part.match( request_path ).should == false
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someconstantandoption', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someconstantandoption/2', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
 	  request_path.current_part.should == '2'
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherconstantandoption', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherconstantandoptionalpath', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
 	  request_path.current_part.should == 'and'
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherpathtoconstantandoption', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherpathtoconstantandthenanoption', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
 	  request_path.current_part.should == 'and'
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someconstantandoptionortwo', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someconstantandoptionortwothree', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
 	  request_path.current_part.should == 'three'
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherconstantandoptionortwo', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherconstantandoptionoroneortwo', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
 	  request_path.current_part.should == 'or'
 	  
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherpathtoconstantandoptionortwo', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
     
 	  request_path = ::Magnets::Path::RequestPath.new( '/someotherpathtoconstantandanoptionortwo', path )
+    request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true
 	  request_path.current_part.should == 'and'
 

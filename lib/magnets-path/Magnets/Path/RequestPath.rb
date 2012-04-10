@@ -70,7 +70,23 @@ class ::Magnets::Path::RequestPath
     return @attached_path
     
   end
+
+	#######################################  Path Matching  ##########################################
   
+  ###########
+	#  match  #
+	###########
+
+  def match( path_definition = nil )
+    
+    if path_definition
+      attach_to_path_definition( path_definition )
+    end
+    
+    return attached_path.match( self )
+	
+	end
+	
 	##################################  Path Definition Queries  #####################################
 
   ##########################
@@ -154,25 +170,16 @@ class ::Magnets::Path::RequestPath
     # advance count
 	  frame.current_index += 1
     frame.current_definition_index += 1
-	  
-	  # if we've already matched this part (via look-ahead) advance again
-	  while frame.matched_for_index                                         and
-	        part_has_match = frame.matched_for_index[ frame.current_index ]
-  	  
-  	  frame.current_index += 1
-      frame.current_definition_index += 1
-    
-    end
-        
+
     return current_part
     
   end
 
-	#########################################
-	#  declare_fragments_for_current_frame  #
-	#########################################
+	##########################################
+	#  declare_current_frame_has_fragments!  #
+	##########################################
   
-	def declare_fragments_for_current_frame
+	def declare_current_frame_has_fragments!
 	  
 	  current_frame.fragment_stack = [ new_fragment_frame ]
 	  
@@ -206,14 +213,13 @@ class ::Magnets::Path::RequestPath
 	#  has_remaining_fragment?  #
 	#############################
   
-  def has_remaining_fragment?
+  def has_remaining_fragment?( how_far_ahead = 0 )
     
     has_remaining_fragment = false
     
     if fragment_frame = current_fragment_frame
       
-      forward_index = fragment_frame.current_definition_index
-
+      forward_index = fragment_frame.current_definition_index + how_far_ahead
       has_remaining_fragment = ( forward_index < current_part_definition.count )
 
     end    
@@ -259,7 +265,17 @@ class ::Magnets::Path::RequestPath
 
   def matched_fragment( fragment_definition )
     
-    return current_fragment_frame.matched_for_definition[ fragment_definition ]
+    match_string = nil
+    
+    fragment_frame = current_fragment_frame
+    
+    if fragment_frame and fragment_frame.matched_for_definition
+      
+      match_string = fragment_frame.matched_for_definition[ fragment_definition ]
+      
+    end
+    
+    return match_string
     
   end
   
@@ -269,7 +285,17 @@ class ::Magnets::Path::RequestPath
 
   def matched_part( part_definition )
     
-    return current_frame.matched_for_definition[ part_definition ]
+    match_string = nil
+    
+    frame = current_frame
+    
+    if frame and frame.matched_for_definition
+      
+      match_string = frame.matched_for_definition[ part_definition ]
+      
+    end
+    
+    return match_string
     
   end
   
@@ -309,14 +335,6 @@ class ::Magnets::Path::RequestPath
 
     # advance count
     fragment_frame.current_definition_index += 1
-	  
-	  # if we've already matched this part (via look-ahead) advance again
-	  if fragment_frame.matched_for_definition
-      while matched_fragment = fragment_frame.matched_for_definition[ current_fragment_definition ]
-        fragment_frame.current_definition_index += 1
-        fragment_frame.current_slice_index += matched_fragment.length
-      end
-    end
     
     return current_fragment
     
@@ -336,13 +354,13 @@ class ::Magnets::Path::RequestPath
     fragment_frame.matched_for_definition ||= { }
     
     fragment_frame.matched_for_index[ fragment_frame.current_definition_index ] = definition
-
+    
     matched_fragment = current_fragment.slice( 0, length )
     fragment_frame.matched_for_definition[ definition ] = matched_fragment
 
     fragment_frame.current_slice_index += length
 
-    if has_remaining_fragment?
+    if has_remaining_fragment?( 1 )
       next_fragment
     end
     
@@ -481,11 +499,11 @@ class ::Magnets::Path::RequestPath
     
   end
 
-  ##################################
-	#  match_fragment_by_look_ahead  #
-	##################################
+  ###############################
+	#  look_ahead_fragment_match  #
+	###############################
 	
-  def match_fragment_by_look_ahead
+  def look_ahead_fragment_match
     
     matched_fragment = nil
     
@@ -496,21 +514,21 @@ class ::Magnets::Path::RequestPath
     fragment_frame.current_definition_index += distance_definition_index_advanced
     
     index, length = current_fragment_definition.look_ahead_match( self )
-    
+  
     if index and index > 0
-      
+    
       end_slice_index = index + length
 
       matched_fragment = current_fragment.slice( index...end_slice_index )
-      
+    
       # we advanced an additional one when we matched
       distance_definition_index_advanced += 1
-      
+    
     end
 
     fragment_frame.current_definition_index -= distance_definition_index_advanced
     
-    return matched_fragment
+    return index
     
   end
 

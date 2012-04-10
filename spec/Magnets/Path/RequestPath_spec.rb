@@ -723,7 +723,7 @@ describe ::Magnets::Path::RequestPath do
   end
 
 	#########################################
-	#  declare_fragments_for_current_frame  #
+	#  declare_current_frame_has_fragments!  #
 	#########################################
 
   it 'can declare that this frame has fragments (creating a fragment frame)' do
@@ -732,7 +732,7 @@ describe ::Magnets::Path::RequestPath do
       current_frame.should_not == nil
       current_fragment_frame.should == nil
     end
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.instance_eval do
       current_fragment_frame.should_not == nil
       current_fragment_frame.current_slice_index.should == 0
@@ -756,7 +756,7 @@ describe ::Magnets::Path::RequestPath do
     request_path.instance_eval do
       current_frame.current_index += 1
     end
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.current_fragment.should == 'path'
     request_path.instance_eval do
       current_fragment_frame.current_slice_index += 2
@@ -782,7 +782,7 @@ describe ::Magnets::Path::RequestPath do
     request_path.instance_eval do
       current_frame.current_definition_index += 1
     end
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.has_remaining_fragment?.should == true
     request_path.instance_eval do
       current_fragment_frame.current_definition_index += 1
@@ -815,7 +815,7 @@ describe ::Magnets::Path::RequestPath do
       current_frame.current_definition_index += 1
     end
     request_path.count_remaining_parts.should == 1
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.instance_eval do
       current_fragment_frame.current_slice_index += 2
       current_fragment_frame.current_definition_index += 1
@@ -849,7 +849,7 @@ describe ::Magnets::Path::RequestPath do
     request_path.instance_eval do
       current_frame.current_definition_index += 1
     end
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.count_remaining_fragments.should == 3
     request_path.instance_eval do
       current_fragment_frame.current_definition_index += 1
@@ -873,7 +873,7 @@ describe ::Magnets::Path::RequestPath do
 
   it 'can return matched fragment for index (if a fragment has been matched)' do
     request_path = ::Magnets::Path::RequestPath.new( '/some/request/path/', @mock_path )
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.instance_eval do
       current_fragment_frame.matched_for_definition = [ 'so' ]
     end
@@ -932,7 +932,7 @@ describe ::Magnets::Path::RequestPath do
     request_path = ::Magnets::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.next_part
     request_path.next_part
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.current_fragment_definition.should == @mock_path_part_three_fragment_one
     request_path.next_fragment
     request_path.current_fragment_definition.should == @mock_path_part_three_fragment_two
@@ -950,7 +950,7 @@ describe ::Magnets::Path::RequestPath do
     request_path = ::Magnets::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.next_part
     request_path.next_part
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     mock_path_part_three_fragment_one = @mock_path_part_three_fragment_one
     mock_path_part_three_fragment_two = @mock_path_part_three_fragment_two
     mock_path_part_three_fragment_three = @mock_path_part_three_fragment_three
@@ -991,7 +991,7 @@ describe ::Magnets::Path::RequestPath do
     mock_path_part_three_fragment_three = @mock_path_part_three_fragment_three
     request_path.matched_part!
     request_path.matched_part!
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     request_path.matched_fragment!( 2 )
     request_path.matched_fragment!( 1 )
     request_path.matched_fragment!( 1 )
@@ -1134,7 +1134,7 @@ describe ::Magnets::Path::RequestPath do
     request_path.matched_part!
     
     # now deal with fragments
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     
     # first an optional match
     request_path.begin_optional_fragment_match
@@ -1391,7 +1391,7 @@ describe ::Magnets::Path::RequestPath do
     request_path.matched_part!
     request_path.matched_part!
     
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     
     stack.count.should == 1
     stack[0].current_index.should == 2
@@ -1428,7 +1428,7 @@ describe ::Magnets::Path::RequestPath do
   end
 
   ##################################
-	#  match_fragment_by_look_ahead  #
+	#  look_ahead_fragment_match  #
 	##################################
 	
   it 'can attempt to match a fragment that is not anchored to the left side of path part' do
@@ -1440,7 +1440,7 @@ describe ::Magnets::Path::RequestPath do
     request_path.matched_part!
     request_path.matched_part!
     
-    request_path.declare_fragments_for_current_frame
+    request_path.declare_current_frame_has_fragments!
     
     stack.count.should == 1
     stack[0].current_index.should == 2
@@ -1454,7 +1454,7 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
     
-    request_path.match_fragment_by_look_ahead.should == 't'
+    request_path.look_ahead_fragment_match.should == 't'
     
     stack.count.should == 1
     stack[0].current_index.should == 2
