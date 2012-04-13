@@ -54,10 +54,12 @@ class ::Magnets::Path
         case this_part
 
           when ::Magnets::Path::PathPart::Optional
-
+            
             # optional parts can fail without implicating match status
-            matched = this_part.match( request_path )
-
+            if this_part.match( request_path )
+              matched = true
+            end
+            
           else
 
             break unless matched = this_part.match( request_path )

@@ -49,6 +49,80 @@ module ::Magnets::Path::Parser
                  WildcardDelimiter,
                  MultiPathWildcardDelimiter ]
 
+  ###################################
+  #  self.regularize_path_or_parts  #
+  ###################################
+  
+  def self.regularize_path_or_parts( *paths_or_parts_or_descriptors )
+    
+    paths = [ ]
+
+    path_parts = [ ]
+    
+    until paths_or_parts_or_descriptors.empty?
+      
+      this_path_or_part_or_descriptor = paths_or_parts_or_descriptors.shift
+
+      case this_path_or_part_or_descriptor
+        
+        when ::Magnets::Path
+      
+          unless path_parts.empty?
+            paths.push( ::Magnets::Path.new( *path_parts ) )
+            path_parts.clear
+          end
+          paths.push( this_path_or_part_or_descriptor )
+      
+        when ::Magnets::Path::PathPart
+        
+          if this_path_or_part_or_descriptor.is_a?( ::Magnets::Path::PathPart::Empty )
+            unless path_parts.empty?
+              paths.push( ::Magnets::Path.new( *path_parts ) )
+              path_parts.clear
+            end
+            paths.push( ::Magnets::Path.new( this_path_or_part_or_descriptor ) )
+          else
+            path_parts.push( this_path_or_part_or_descriptor )
+          end
+        
+        when String
+          
+          if this_path_or_part_or_descriptor.include?( ::Magnets::Path::Parser::PathDelimiter )
+
+            path_parts.concat( parse_string_for_descriptors( this_path_or_part_or_descriptor ) )
+            
+          else
+            
+            this_part = parse_path_part_string( this_path_or_part_or_descriptor )
+            if this_part.is_a?( ::Magnets::Path::PathPart::Empty )
+              unless path_parts.empty?
+                paths.push( ::Magnets::Path.new( *path_parts ) )
+                path_parts.clear
+              end
+              paths.push( ::Magnets::Path.new( this_part ) )
+            else
+              path_parts.push( this_part )
+            end
+            
+          end
+          
+        else
+          
+          path_parts.push( ::Magnets::Path::PathPart.new( this_path_or_part_or_descriptor ) )
+          
+      end
+            
+    end
+    
+    unless path_parts.empty?
+      paths.push( ::Magnets::Path.new( *path_parts ) )
+      path_parts.clear
+    end
+    
+    return paths
+    
+  end
+
   #######################################
   #  self.parse_string_for_descriptors  #
   #######################################
@@ -96,47 +170,55 @@ module ::Magnets::Path::Parser
     
     descriptor = nil
     
-    case descriptor_string[ 0 ]
-      
-      when ::Magnets::Path::Parser::RegexpDelimiter
-        
-        descriptor = parse_path_part_for_regexp( descriptor_string, 
-                                                 multiple_capturing_fragments )
-        
-      when ::Magnets::Path::Parser::VariableDelimiter
-
-        descriptor = parse_path_part_for_variable( descriptor_string, 
-                                                   multiple_capturing_fragments )
-
-      when ::Magnets::Path::Parser::OptionalDelimiter
-
-        descriptor = parse_path_part_for_optional( descriptor_string, 
-                                                   multiple_capturing_fragments )
-
-      when ::Magnets::Path::Parser::ExclusionDelimiter
-
-        descriptor = parse_path_part_for_exclusion( descriptor_string, 
-                                                    multiple_capturing_fragments )
+    if descriptor_string.nil? or descriptor_string.empty?
     
-      when ::Magnets::Path::Parser::WildcardDelimiter
-
-        if descriptor_string[ 0...2 ] == ::Magnets::Path::Parser::MultiPathWildcardDelimiter
-
-          descriptor = parse_path_part_for_multipath_wildcard( descriptor_string, 
-                                                               multiple_capturing_fragments )
-          
-        else
+      descriptor = ::Magnets::Path::PathPart::Empty.new
+    
+    else
+      
+      case descriptor_string[ 0 ]
+      
+        when ::Magnets::Path::Parser::RegexpDelimiter
         
-          descriptor = parse_path_part_for_wildcard( descriptor_string, 
-                                                     multiple_capturing_fragments )
-        
-        end
-        
-      # constant
-      else
-
-        descriptor = parse_path_part_for_constant( descriptor_string, 
+          descriptor = parse_path_part_for_regexp( descriptor_string, 
                                                    multiple_capturing_fragments )
+        
+        when ::Magnets::Path::Parser::VariableDelimiter
+
+          descriptor = parse_path_part_for_variable( descriptor_string, 
+                                                     multiple_capturing_fragments )
+
+        when ::Magnets::Path::Parser::OptionalDelimiter
+
+          descriptor = parse_path_part_for_optional( descriptor_string, 
+                                                     multiple_capturing_fragments )
+
+        when ::Magnets::Path::Parser::ExclusionDelimiter
+
+          descriptor = parse_path_part_for_exclusion( descriptor_string, 
+                                                      multiple_capturing_fragments )
+    
+        when ::Magnets::Path::Parser::WildcardDelimiter
+
+          if descriptor_string[ 0...2 ] == ::Magnets::Path::Parser::MultiPathWildcardDelimiter
+
+            descriptor = parse_path_part_for_multipath_wildcard( descriptor_string, 
+                                                                 multiple_capturing_fragments )
+          
+          else
+        
+            descriptor = parse_path_part_for_wildcard( descriptor_string, 
+                                                       multiple_capturing_fragments )
+        
+          end
+        
+        # constant
+        else
+
+          descriptor = parse_path_part_for_constant( descriptor_string, 
+                                                     multiple_capturing_fragments )
+    
+      end
     
     end
     

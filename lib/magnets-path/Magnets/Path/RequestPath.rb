@@ -155,6 +155,8 @@ class ::Magnets::Path::RequestPath
 
   def current_part
     
+    attached_path
+    
     return @path_parts[ current_frame.current_index ]
     
   end

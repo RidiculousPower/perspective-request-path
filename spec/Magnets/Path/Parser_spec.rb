@@ -3,12 +3,40 @@ require_relative '../../../lib/magnets-path.rb'
 
 describe ::Magnets::Path::Parser do
 
+  ###################################
+  #  self.regularize_path_or_parts  #
+  ###################################
+
+  it 'can regularize paths and parts' do
+    
+    paths = ::Magnets::Path::Parser.regularize_path_or_parts( :variable, 'some/path', /parts/, ::Magnets::Path.new( 'some/path' ), 'some/other', 'path', ''  )
+    paths.count.should == 4
+    paths[ 0 ].count.should == 4
+    paths[ 0 ][ 0 ].is_a?( ::Magnets::Path::PathPart::Variable ).should == true
+    paths[ 0 ][ 1 ].is_a?( ::Magnets::Path::PathPart::Constant ).should == true
+    paths[ 0 ][ 2 ].is_a?( ::Magnets::Path::PathPart::Constant ).should == true
+    paths[ 0 ][ 3 ].is_a?( ::Magnets::Path::PathPart::Regexp ).should == true
+    paths[ 1 ].count.should == 2
+    paths[ 1 ][ 0 ].is_a?( ::Magnets::Path::PathPart::Constant ).should == true
+    paths[ 1 ][ 1 ].is_a?( ::Magnets::Path::PathPart::Constant ).should == true
+    paths[ 2 ].count.should == 3
+    paths[ 2 ][ 0 ].is_a?( ::Magnets::Path::PathPart::Constant ).should == true
+    paths[ 2 ][ 1 ].is_a?( ::Magnets::Path::PathPart::Constant ).should == true
+    paths[ 2 ][ 2 ].is_a?( ::Magnets::Path::PathPart::Constant ).should == true
+    paths[ 3 ].count.should == 1
+    paths[ 3 ][ 0 ].is_a?( ::Magnets::Path::PathPart::Empty ).should == true
+    
+    ::Magnets::Path::Parser.regularize_path_or_parts( *paths ).should == paths
+    
+  end
+
   #################################
   #  self.parse_path_part_string  #
   #################################
 
   it 'can take a descriptor string for a single path and parse it into corresponding fragment objects' do
     
+    ::Magnets::Path::Parser.parse_path_part_string( '' ).is_a?( ::Magnets::Path::PathPart::Empty ).should == true
     ::Magnets::Path::Parser.parse_path_part_string( '#regexp#' ).is_a?( ::Magnets::Path::PathPart::Regexp ).should == true
     ::Magnets::Path::Parser.parse_path_part_string( '%variable%' ).is_a?( ::Magnets::Path::PathPart::Variable ).should == true
     ::Magnets::Path::Parser.parse_path_part_string( 'constant' ).is_a?( ::Magnets::Path::PathPart::Constant ).should == true

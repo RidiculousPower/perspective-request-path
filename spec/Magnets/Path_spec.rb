@@ -39,6 +39,10 @@ describe ::Magnets::Path do
   
   it 'can match for all declared parts' do
     
+    path = ::Magnets::Path.new( '' )
+    request_path = ::Magnets::Path::RequestPath.new( '', path )
+    request_path.match.should == true
+    
     # Constant
     # - followed by Constant
     path = ::Magnets::Path.new( 'some/request' )

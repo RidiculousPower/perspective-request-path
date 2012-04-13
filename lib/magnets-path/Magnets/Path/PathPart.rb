@@ -55,7 +55,7 @@ module ::Magnets::Path::PathPart
   def self.regularize_descriptors( *descriptors )
 
     regularized_descriptors = [ ]
-    
+
     descriptors.each do |this_path_descriptor|
 
       case this_path_descriptor
@@ -66,10 +66,17 @@ module ::Magnets::Path::PathPart
         
         when ::String
           
-          descriptors_for_string = ::Magnets::Path::
-                                     Parser.parse_string_for_descriptors( this_path_descriptor )
-          regularized_descriptors.concat( descriptors_for_string )
-        
+          if this_path_descriptor.empty?
+            
+            regularized_descriptors.push( ::Magnets::Path::PathPart::Empty.new )
+            
+          else
+          
+            descriptors_for_string = ::Magnets::Path::
+                                       Parser.parse_string_for_descriptors( this_path_descriptor )
+            regularized_descriptors.concat( descriptors_for_string )
+          end
+          
         else
           
           regularized_descriptors.push( new( this_path_descriptor ) )

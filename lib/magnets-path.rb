@@ -12,6 +12,8 @@ module ::Magnets
       end
     end
 		module PathPart
+  		class Empty
+  		end
   		class Constant
   		end
   		class Variable
@@ -48,33 +50,33 @@ end
 
 basepath = 'magnets-path/Magnets/Path'
 
-require_relative( basepath + '/PathPart/Constant.rb' )
-require_relative( basepath + '/PathPart/Variable.rb' )
-require_relative( basepath + '/PathPart/Optional/Interface.rb' )
-require_relative( basepath + '/PathPart/Optional.rb' )
-require_relative( basepath + '/PathPart/Optional/NamedOptional/Interface.rb' )
-require_relative( basepath + '/PathPart/Optional/NamedOptional.rb' )
-require_relative( basepath + '/PathPart/Regexp.rb' )
+files = [
+  'PathPart/Empty',
+  'PathPart/Constant',
+  'PathPart/Variable',
+  'PathPart/Optional/Interface',
+  'PathPart/Optional',
+  'PathPart/Optional/NamedOptional/Interface',
+  'PathPart/Optional/NamedOptional',
+  'PathPart/Regexp',
+  'PathPart/Multiple',
+  'PathPart/Multiple/MultipathVariable',
+  'PathPart/Fragment/ConstantFragment',
+  'PathPart/Fragment/ExclusionFragment',
+  'PathPart/Fragment/RegexpFragment',
+  'PathPart/Fragment/VariableFragment',
+  'PathPart/Fragment/MultipathVariableFragment',
+  'PathPart/Fragment/OptionalFragment',
+  'PathPart/Fragment/OptionalFragment/NamedOptionalFragment',
+  'PathPart/Fragment',
+  'PathPart',
+  'RequestPath/Frame',
+  'RequestPath',
+  'Parser'
+]
 
-require_relative( basepath + '/PathPart/Multiple.rb' )
-require_relative( basepath + '/PathPart/Multiple/MultipathVariable.rb' )
-
-require_relative( basepath + '/PathPart/Fragment/ConstantFragment.rb' )
-require_relative( basepath + '/PathPart/Fragment/ExclusionFragment.rb' )
-require_relative( basepath + '/PathPart/Fragment/RegexpFragment.rb' )
-require_relative( basepath + '/PathPart/Fragment/VariableFragment.rb' )
-require_relative( basepath + '/PathPart/Fragment/MultipathVariableFragment.rb' )
-require_relative( basepath + '/PathPart/Fragment/OptionalFragment.rb' )
-require_relative( basepath + '/PathPart/Fragment/OptionalFragment/NamedOptionalFragment.rb' )
-
-require_relative( basepath + '/PathPart/Fragment.rb' )
-
-require_relative( basepath + '/PathPart.rb' )
-
-require_relative( basepath + '/RequestPath/Frame.rb' )
-require_relative( basepath + '/RequestPath.rb' )
-
-require_relative( basepath + '/Parser.rb' )
+files.each do |this_file|
+  require_relative( File.join( basepath, this_file ) + '.rb' )
+end
 
 require_relative( basepath + '.rb' )
-

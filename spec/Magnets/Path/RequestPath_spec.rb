@@ -1328,11 +1328,10 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
     
-    # and the next match should move us to index #2 (the third item)
     request_path.matched_part!
     stack.count.should == 1
-    stack[0].current_index.should == 2
-    stack[0].current_definition_index.should == 2
+    stack[0].current_index.should == 1
+    stack[0].current_definition_index.should == 1
     stack[0].fragment_stack.should == nil
     stack[0].matched_for_index[0].should == @mock_path_part_one
     stack[0].matched_for_definition[ @mock_path_part_one ].should == 'some'
@@ -1365,11 +1364,10 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
     
-    # and the next match should move us to index #2 (the third item)
     request_path.matched_part!
     stack.count.should == 1
-    stack[0].current_index.should == 2
-    stack[0].current_definition_index.should == 2
+    stack[0].current_index.should == 1
+    stack[0].current_definition_index.should == 1
     stack[0].fragment_stack.should == nil
     stack[0].matched_for_index[0].should == @mock_path_part_one
     stack[0].matched_for_definition[ @mock_path_part_one ].should == 'some'
