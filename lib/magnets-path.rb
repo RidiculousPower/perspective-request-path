@@ -1,48 +1,16 @@
 
-require 'rack'
-
 require 'cascading-configuration-array-sorted-unique'
 
-module ::Magnets
-  class Path
-    class RequestPath
-      class Frame
-      end
-    end
-		module PathPart
-  		class Empty
-  		end
-  		class Constant
-  		end
-  		class Variable
-  		end
-  		class Regexp
-  		end
-  		class Multiple
-    		class MultipathVariable
-  		  end
-		  end
-  		class Optional
-  			class NamedOptional < ::Magnets::Path::PathPart::Optional
-  			end
-  		end
-  		module Fragment
-  		  class ConstantFragment
-		    end
-  		  class VariableFragment
-		    end
-    		class MultipathVariableFragment
-  		  end
-  		  class RegexpFragment
-		    end
-  		  class OptionalFragment
-    		  class NamedOptionalFragment < ::Magnets::Path::PathPart::Fragment::OptionalFragment
-  		    end
-		    end
-  		  class ExclusionFragment
-		    end
-		  end
+class ::Magnets::Path
+  class RequestPath
+  end
+	module PathPart
+		class Optional
+			class NamedOptional < ::Magnets::Path::PathPart::Optional
+			end
 		end
+		module Fragment
+	  end
 	end
 end
 
