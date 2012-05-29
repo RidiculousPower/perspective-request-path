@@ -3,8 +3,6 @@ require 'rack'
 
 require 'cascading-configuration-array-sorted-unique'
 
-require_relative '../../bindings/lib/magnets-bindings.rb'
-
 module ::Magnets
   class Path
     class RequestPath

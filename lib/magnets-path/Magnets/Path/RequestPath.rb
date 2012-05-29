@@ -46,9 +46,9 @@ class ::Magnets::Path::RequestPath
 	#  attach_to_path_definition  #
 	###############################
 	
-	def attach_to_path_definition( path_definition )
-
-    @stack.clear.push( new_frame )
+	def attach_to_path_definition( path_definition, reset_request_path = false )
+    
+    @stack.push( new_frame )
 
     @attached_path = path_definition
     
@@ -155,9 +155,13 @@ class ::Magnets::Path::RequestPath
 
   def current_part
     
-    attached_path
+    current_value = nil
     
-    return @path_parts[ current_frame.current_index ]
+    if frame = current_frame
+      current_value = @path_parts[ frame.current_index ]
+    end
+    
+    return current_value
     
   end
   
@@ -237,6 +241,16 @@ class ::Magnets::Path::RequestPath
   def count_remaining_parts
     
     return @path_parts.count - current_frame.current_index
+    
+  end
+
+	#####################
+	#  remaining_parts  #
+	#####################
+  
+  def remaining_parts
+    
+    return @path_parts.slice( current_frame.current_index, count - current_frame.current_index )
     
   end
   
@@ -374,8 +388,12 @@ class ::Magnets::Path::RequestPath
 
 	def match_failed!
 	  
-	  @attached_path = nil
-	  @stack.clear
+	  # pop off failed frame
+	  @stack.pop
+	  
+	  if @stack.empty?
+  	  @attached_path = nil
+    end
 	  
   end
 
@@ -562,14 +580,12 @@ class ::Magnets::Path::RequestPath
 	#  new_frame  #
 	###############
   
-  def new_frame( how_far_ahead = nil )
+  def new_frame( how_far_ahead = 0 )
     
     new_part_index = 0
     new_part_definition_index = 0
     
-    if how_far_ahead
-
-      frame = current_frame
+    if frame = current_frame
 
       new_part_index = frame.current_index + how_far_ahead
       new_part_definition_index = frame.current_definition_index + how_far_ahead

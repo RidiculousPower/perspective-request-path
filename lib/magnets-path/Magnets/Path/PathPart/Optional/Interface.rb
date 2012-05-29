@@ -190,14 +190,12 @@ module ::Magnets::Path::PathPart::Optional::Interface
   	  @configurations.each do |this_configuration|
         
         request_path.begin_optional_match
-        
+
         if matched = match_for_configuration_struct( request_path, this_configuration )
           request_path.matched_optional_match!
           break
     	  end
 
-        request_path.failed_optional_match!
-    	  
       end
 
     end

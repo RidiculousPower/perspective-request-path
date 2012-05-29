@@ -40,6 +40,10 @@ class ::Magnets::Path::PathPart::Regexp
 	    request_path.matched_part!
 
   	  matched = true
+  	  
+  	else
+  	  
+  	  request_path.match_failed!
 
 	  end
 	  

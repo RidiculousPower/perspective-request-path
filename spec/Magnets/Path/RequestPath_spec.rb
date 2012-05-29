@@ -542,7 +542,7 @@ describe ::Magnets::Path::RequestPath do
     request_path = ::Magnets::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_variable_get( :@path_parts ).should == [ 'some', 'request', 'path' ]
     stack = request_path.instance_variable_get( :@stack )
-    stack.is_a?( Array ).should == true
+    stack.is_a?( ::Array ).should == true
     stack.count.should == 1
     stack[0].current_index.should == 0
     stack[0].current_definition_index.should == 0
@@ -561,11 +561,11 @@ describe ::Magnets::Path::RequestPath do
   it 'can attach to a path definition for match processing' do
     request_path = ::Magnets::Path::RequestPath.new( '/some/request/path/' )
     stack = request_path.instance_variable_get( :@stack )
-    stack.is_a?( Array ).should == true
+    stack.is_a?( ::Array ).should == true
     stack.count.should == 0
     Proc.new { request_path.attached_path }.should raise_error( ::RuntimeError )
     request_path.attach_to_path_definition( @mock_path )
-    stack.is_a?( Array ).should == true
+    stack.is_a?( ::Array ).should == true
     stack.count.should == 1
     stack[0].current_index.should == 0
     stack[0].current_definition_index.should == 0
@@ -1145,7 +1145,7 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_one ].should == 'some'
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
-    stack[0].fragment_stack.is_a?( Array ).should == true
+    stack[0].fragment_stack.is_a?( ::Array ).should == true
     stack[0].fragment_stack.count.should == 2
     stack[0].fragment_stack[0].current_slice_index.should == 0
     stack[0].fragment_stack[0].current_definition_index.should == 0
@@ -1165,7 +1165,7 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_one ].should == 'some'
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
-    stack[0].fragment_stack.is_a?( Array ).should == true
+    stack[0].fragment_stack.is_a?( ::Array ).should == true
     stack[0].fragment_stack.count.should == 3
     stack[0].fragment_stack[0].current_slice_index.should == 0
     stack[0].fragment_stack[0].current_definition_index.should == 0
@@ -1189,7 +1189,7 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_one ].should == 'some'
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
-    stack[0].fragment_stack.is_a?( Array ).should == true
+    stack[0].fragment_stack.is_a?( ::Array ).should == true
     stack[0].fragment_stack.count.should == 3
     stack[0].fragment_stack[0].current_slice_index.should == 0
     stack[0].fragment_stack[0].current_definition_index.should == 0
@@ -1213,7 +1213,7 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_one ].should == 'some'
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
-    stack[0].fragment_stack.is_a?( Array ).should == true
+    stack[0].fragment_stack.is_a?( ::Array ).should == true
     stack[0].fragment_stack.count.should == 2
     stack[0].fragment_stack[0].current_slice_index.should == 0
     stack[0].fragment_stack[0].current_definition_index.should == 0
@@ -1231,7 +1231,7 @@ describe ::Magnets::Path::RequestPath do
     request_path.matched_fragment!( 1 )
     stack[0].current_index.should == 2
     stack[0].current_definition_index.should == 2
-    stack[0].fragment_stack.is_a?( Array ).should == true
+    stack[0].fragment_stack.is_a?( ::Array ).should == true
     stack[0].fragment_stack.count.should == 2
     stack[0].fragment_stack[0].current_slice_index.should == 0
     stack[0].fragment_stack[0].current_definition_index.should == 0
@@ -1256,7 +1256,7 @@ describe ::Magnets::Path::RequestPath do
     
     stack[0].current_index.should == 2
     stack[0].current_definition_index.should == 2
-    stack[0].fragment_stack.is_a?( Array ).should == true
+    stack[0].fragment_stack.is_a?( ::Array ).should == true
     stack[0].fragment_stack.count.should == 1
     stack[0].fragment_stack[0].current_slice_index.should == 3
     stack[0].fragment_stack[0].current_definition_index.should == 2
@@ -1452,7 +1452,7 @@ describe ::Magnets::Path::RequestPath do
     stack[0].matched_for_index[1].should == @mock_path_part_two
     stack[0].matched_for_definition[ @mock_path_part_two ].should == 'request'
     
-    request_path.look_ahead_fragment_match.should == 't'
+    request_path.look_ahead_fragment_match.should == 2
     
     stack.count.should == 1
     stack[0].current_index.should == 2

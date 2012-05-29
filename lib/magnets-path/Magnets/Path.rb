@@ -1,9 +1,21 @@
 
 class ::Magnets::Path
 
-  include ::Magnets::Bindings
-
-  attr_reader :parts
+  #########################################
+  #  self.is_path_or_part_or_descriptor?  #
+  #########################################
+  
+  def self.is_path_or_part_or_descriptor?( object )
+    
+    is_path_or_part = false
+    
+    unless is_path_or_part = ::Magnets::Path::PathPart.is_part_or_descriptor?( object )
+      is_path_or_part = is_a?( self )
+    end
+    
+    return is_path_or_part
+    
+  end
 
   ################
   #  initialize  #
@@ -24,6 +36,12 @@ class ::Magnets::Path
     return @parts[ path_part_index ]
     
   end
+
+  ###########
+  #  parts  #
+  ###########
+  
+  attr_reader :parts
   
   ###########
   #  count  #

@@ -39,12 +39,37 @@ module ::Magnets::Path::PathPart
                                 NamedOptional.new( path_descriptor )
 
       else
-  
-        descriptor_instance = path_descriptor
         
+        if is_part_or_descriptor?( path_descriptor )
+          descriptor_instance = path_descriptor
+        else
+          raise ::ArgumentError, path_descriptor.inspect + ' does not appear to be a valid ' + 
+                self.to_s + ' or descriptor.'
+        end
+		
 		end
     
     return descriptor_instance
+    
+  end
+
+  #################################
+  #  self.is_part_or_descriptor?  #
+  #################################
+  
+  def self.is_part_or_descriptor?( object )
+
+    is_path_or_part = false
+    
+    case object
+		  
+			when ::String, ::Symbol, ::Regexp, ::Array, self
+
+        is_path_or_part = true
+        
+    end
+    
+    return is_path_or_part
     
   end
 

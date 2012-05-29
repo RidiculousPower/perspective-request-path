@@ -14,7 +14,11 @@ class ::Magnets::Path::PathPart::Empty
 	  if request_path.current_part.nil?
 	    
 	    matched = true
+	  
+	  else
 	    
+	    request_path.match_failed!
+      
     end
 	  
 	  return matched

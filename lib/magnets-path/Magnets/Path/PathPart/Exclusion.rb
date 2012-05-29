@@ -29,7 +29,19 @@ class ::Magnets::Path::PathPart::Exclusion
 	
 	def match( request_path )
 	  
-	  return ! @excluded_part.match( request_path )
+	  request_path.begin_optional_match
+	  
+	  # this needs to be thought out more explicitly
+	  # it might even be a bad idea to provide
+	  
+	  if @excluded_part.match( request_path )
+      # if we matched then we failed
+	    request_path.failed_match!
+	  else
+	    request_path.matched_part!
+	  end
+	  
+	  return matched
 	  
   end
 

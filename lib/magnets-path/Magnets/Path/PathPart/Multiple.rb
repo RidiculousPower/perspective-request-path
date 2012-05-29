@@ -1,6 +1,8 @@
 
 class ::Magnets::Path::PathPart::Multiple
 
+  include ::Magnets::Path::PathPart
+
 	################
 	#  initialize  #
 	################

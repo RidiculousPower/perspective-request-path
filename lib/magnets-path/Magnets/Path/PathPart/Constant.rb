@@ -28,9 +28,13 @@ class ::Magnets::Path::PathPart::Constant
 	    request_path.matched_part!
 
   	  matched = true
+  	
+  	else
+  	  
+  	  request_path.match_failed!
 
 	  end
-	  
+
 	  return matched
 	  
   end
