@@ -1,5 +1,5 @@
 
-require 'cascading-configuration-array-sorted-unique'
+require_relative '../../configuration/lib/magnets-configuration.rb'
 
 class ::Magnets::Path
   class RequestPath
