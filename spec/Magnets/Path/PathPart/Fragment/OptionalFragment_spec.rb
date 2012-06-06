@@ -69,6 +69,8 @@ describe ::Magnets::Path::PathPart::Fragment::OptionalFragment do
 	  multiple_part = ::Magnets::Path::PathPart::Multiple.new( optional_part )
 	  path = ::Magnets::Path.new( optional_part )
 	  
+    pending 'not a priority - will return to implement'
+	  
 	  request_path = ::Magnets::Path::RequestPath.new( '/someconstant/', path )
     request_path.declare_current_frame_has_fragments!
 	  optional_part.match( request_path ).should == true

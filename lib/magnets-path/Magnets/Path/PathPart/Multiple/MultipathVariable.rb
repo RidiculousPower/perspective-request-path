@@ -1,5 +1,5 @@
 
-class ::Magnets::Path::PathPart::Multiple::MultipathWildcard
+class ::Magnets::Path::PathPart::Multiple::MultipathVariable
 
   include ::Magnets::Path::PathPart
 
