@@ -21,7 +21,7 @@ module ::Magnets::Path::PathPart::Optional::Interface
     initialize_parts
         
     # keep configurations sorted by struct.count with longest first
-    @configurations = ::CompositingArray::Sorted::Unique.new do |this_object|
+    @configurations = ::Array::Sorted::Unique.new do |this_object|
       this_object.count
     end.reverse!
 
