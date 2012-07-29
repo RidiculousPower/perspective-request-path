@@ -32,7 +32,7 @@ describe ::Magnets::Path::PathPart::Optional do
 	  optional_part = ::Magnets::Path::PathPart::Optional.new( 'some', optional_sub_part_one, 'constant', optional_sub_part_two )
 	  
 	  optional_part.configurations.count.should == 10
-	  
+
 	  optional_part.configurations[ 0 ].count.should == 9
 	  optional_part.configurations[ 0 ].sub_options.should == { optional_sub_part_one => 0, optional_sub_part_two => 0 }
 	  optional_part.configurations[ 1 ].count.should == 7
