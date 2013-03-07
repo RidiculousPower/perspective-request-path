@@ -1,5 +1,6 @@
+# -*- encoding : utf-8 -*-
 
-module ::Perspective::Request::Path::PathPart::Optional::NamedOptional::Interface
+module ::Perspective::Request::Path::PathPart::Optional::NamedOptional:: NamedOptionalInterface
   
   ################
 	#  initialize  #

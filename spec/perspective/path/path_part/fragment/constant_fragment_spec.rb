@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../../../lib/perspective/request/path.rb'
 
@@ -7,7 +8,7 @@ describe ::Perspective::Request::Path::PathPart::Fragment::ConstantFragment do
 	#  match  #
 	###########
 
-  it 'can match a constant portion of a path fragment' do
+  it 'will match a constant portion of a path fragment' do
     constant_fragment_one = ::Perspective::Request::Path::PathPart::Fragment::ConstantFragment.new( 'const' )
     constant_fragment_two = ::Perspective::Request::Path::PathPart::Fragment::ConstantFragment.new( 'ant' )
     constant_fragment_three = ::Perspective::Request::Path::PathPart::Fragment::ConstantFragment.new( 'other' )

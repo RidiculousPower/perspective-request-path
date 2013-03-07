@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../../../lib/perspective/request/path.rb'
 
@@ -8,7 +9,7 @@ describe ::Perspective::Request::Path::PathPart::Fragment::VariableFragment do
 	###########
 
   # before constant or end
-  it 'can match a variable portion of a path fragment before/after a constant fragment' do
+  it 'will match a variable portion of a path fragment before/after a constant fragment' do
 
     variable_fragment_one = ::Perspective::Request::Path::PathPart::Fragment::VariableFragment.new( :left )
     constant_fragment_two = ::Perspective::Request::Path::PathPart::Fragment::ConstantFragment.new( '-' )
@@ -30,7 +31,7 @@ describe ::Perspective::Request::Path::PathPart::Fragment::VariableFragment do
   end
 
   # before regexp or end
-  it 'can match a variable portion of a path fragment before/after a regexp fragment' do
+  it 'will match a variable portion of a path fragment before/after a regexp fragment' do
 
     variable_fragment_one = ::Perspective::Request::Path::PathPart::Fragment::VariableFragment.new( :left )
     regexp_fragment_two = ::Perspective::Request::Path::PathPart::Fragment::RegexpFragment.new( /-/ )

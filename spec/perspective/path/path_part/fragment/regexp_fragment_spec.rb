@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../../../lib/perspective/request/path.rb'
 
@@ -7,7 +8,7 @@ describe ::Perspective::Request::Path::PathPart::Fragment::RegexpFragment do
 	#  match  #
 	###########
 
-  it 'can match a regexp portion of a path fragment' do
+  it 'will match a regexp portion of a path fragment' do
     regexp_fragment_one = ::Perspective::Request::Path::PathPart::Fragment::RegexpFragment.new( /const/ )
     regexp_fragment_two = ::Perspective::Request::Path::PathPart::Fragment::RegexpFragment.new( /ant/ )
     regexp_fragment_three = ::Perspective::Request::Path::PathPart::Fragment::RegexpFragment.new( /other/ )

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../../lib/perspective/request/path.rb'
 
@@ -8,7 +9,7 @@ describe ::Perspective::Request::Path::PathPart::Optional do
 	#  initialize_sub_option_combinations  #
 	########################################
 
-	it 'can initialize with nested parts' do
+	it 'will initialize with nested parts' do
 	  
 	  optional_part = ::Perspective::Request::Path::PathPart::Optional.new( 'some', 'path', 'to', 'constant' )
 
@@ -58,7 +59,7 @@ describe ::Perspective::Request::Path::PathPart::Optional do
 	#  match  #
 	###########
   
-  it 'can match an optional path portion' do
+  it 'will match an optional path portion' do
     
     optional_sub_one_sub_part = ::Perspective::Request::Path::PathPart::Optional.new( 'path', 'to' )
 	  optional_sub_part_one = ::Perspective::Request::Path::PathPart::Optional.new( 'other', optional_sub_one_sub_part )

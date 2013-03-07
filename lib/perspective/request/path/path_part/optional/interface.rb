@@ -1,5 +1,6 @@
+# -*- encoding : utf-8 -*-
 
-module ::Perspective::Request::Path::PathPart::Optional::Interface
+module ::Perspective::Request::Path::PathPart::Optional::OptionalInterface
 
   include ::Perspective::Request::Path::PathPart
   
@@ -25,7 +26,7 @@ module ::Perspective::Request::Path::PathPart::Optional::Interface
       this_object.count
     end.reverse!
 
-    no_options_struct = ::Perspective::Request::Path::PathPart::Optional::Interface::
+    no_options_struct = ::Perspective::Request::Path::PathPart::Optional::OptionalInterface::
                           SubOptionStruct.new( self, @non_optional_part_count )
     @configurations.push( no_options_struct )
     
@@ -81,7 +82,7 @@ module ::Perspective::Request::Path::PathPart::Optional::Interface
       remaining_product_arrays = arrays_for_product[ 1..-1 ]
       base_product_array.product( *remaining_product_arrays ) do |this_cross_product|
 
-        new_configuration_struct = ::Perspective::Request::Path::PathPart::Optional::Interface::
+        new_configuration_struct = ::Perspective::Request::Path::PathPart::Optional::OptionalInterface::
                                      SubOptionStruct.new( self, @non_optional_part_count )
 
         new_configuration_struct.sub_options = { }
@@ -115,7 +116,7 @@ module ::Perspective::Request::Path::PathPart::Optional::Interface
         this_configuration_count = @non_optional_part_count + this_sub_configuration_struct.count
         
         this_sub_options_hash = { sub_option => configuration_index }
-        this_new_configuration_struct = ::Perspective::Request::Path::PathPart::Optional::Interface::
+        this_new_configuration_struct = ::Perspective::Request::Path::PathPart::Optional::OptionalInterface::
                                           SubOptionStruct.new( self, 
                                                                this_configuration_count,
                                                                this_sub_options_hash )

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../lib/perspective/request/path.rb'
 
@@ -7,7 +8,7 @@ describe ::Perspective::Request::Path::Parser do
   #  self.regularize_path_or_parts  #
   ###################################
 
-  it 'can regularize paths and parts' do
+  it 'will regularize paths and parts' do
     
     paths = ::Perspective::Request::Path::Parser.regularize_path_or_parts( :variable, 'some/path', /parts/, ::Perspective::Request::Path.new( 'some/path' ), 'some/other', 'path', ''  )
     paths.count.should == 4
@@ -34,7 +35,7 @@ describe ::Perspective::Request::Path::Parser do
   #  self.parse_path_part_string  #
   #################################
 
-  it 'can take a descriptor string for a single path and parse it into corresponding fragment objects' do
+  it 'will take a descriptor string for a single path and parse it into corresponding fragment objects' do
     
     ::Perspective::Request::Path::Parser.parse_path_part_string( '' ).is_a?( ::Perspective::Request::Path::PathPart::Empty ).should == true
     ::Perspective::Request::Path::Parser.parse_path_part_string( '#regexp#' ).is_a?( ::Perspective::Request::Path::PathPart::Regexp ).should == true
@@ -143,7 +144,7 @@ describe ::Perspective::Request::Path::Parser do
   #  self.parse_string_for_descriptors  #
   #######################################
 
-  it 'can take a descriptor string and parse it into corresponding objects' do
+  it 'will take a descriptor string and parse it into corresponding objects' do
 
     ::Perspective::Request::Path::Parser.parse_string_for_descriptors( '#regexp#' )[ 0 ].is_a?( ::Perspective::Request::Path::PathPart::Regexp ).should == true
     ::Perspective::Request::Path::Parser.parse_string_for_descriptors( '%variable%' )[ 0 ].is_a?( ::Perspective::Request::Path::PathPart::Variable ).should == true

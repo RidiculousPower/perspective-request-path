@@ -1,7 +1,8 @@
+# -*- encoding : utf-8 -*-
 
 class ::Perspective::Request::Path::PathPart::Fragment::OptionalFragment
 
-  include ::Perspective::Request::Path::PathPart::Optional::Interface
+  include ::Perspective::Request::Path::PathPart::Optional::OptionalInterface
 
   include ::Perspective::Request::Path::PathPart::Fragment
 

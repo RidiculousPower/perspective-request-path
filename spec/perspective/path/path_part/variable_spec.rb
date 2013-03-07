@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../../lib/perspective/request/path.rb'
 
@@ -7,7 +8,7 @@ describe ::Perspective::Request::Path::PathPart::Variable do
 	#  match  #
 	###########
 
-  it 'can match a constant path portion' do
+  it 'will match a constant path portion' do
     variable_one = ::Perspective::Request::Path::PathPart::Variable.new( 'somepath' )
     variable_two = ::Perspective::Request::Path::PathPart::Variable.new( 'to' )
     variable_three = ::Perspective::Request::Path::PathPart::Variable.new( 'const' )

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../lib/perspective/request/path.rb'
 
@@ -7,7 +8,7 @@ describe ::Perspective::Request::Path do
   #  initialize  #
   ################
 
-  it 'can initialize with or without path parts' do
+  it 'will initialize with or without path parts' do
     
     path_instance = ::Perspective::Request::Path.new
     path_instance.parts.is_a?( ::Array )
@@ -24,7 +25,7 @@ describe ::Perspective::Request::Path do
   #  []  #
   ########
 
-  it 'can address the parts array directly' do
+  it 'will address the parts array directly' do
 
     path_instance = ::Perspective::Request::Path.new( 'constant' )
     path_instance.parts.is_a?( ::Array )
@@ -37,7 +38,7 @@ describe ::Perspective::Request::Path do
   #  match_request_path  #
   ########################
   
-  it 'can match for all declared parts' do
+  it 'will match for all declared parts' do
     
     path = ::Perspective::Request::Path.new( '' )
     request_path = ::Perspective::Request::Path::RequestPath.new( '', path )

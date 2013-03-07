@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../lib/perspective/request/path.rb'
 
@@ -75,7 +76,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  new_frame  #
 	###############
   
-  it 'can create a new stack frame' do
+  it 'will create a new stack frame' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       first_frame = new_frame
@@ -103,7 +104,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  new_fragment_frame  #
 	########################
 
-  it 'can create a new fragment stack frame' do
+  it 'will create a new fragment stack frame' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       first_fragment_frame = new_fragment_frame
@@ -129,7 +130,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  current_frame  #
 	###################
   
-  it 'can return the current stack frame' do
+  it 'will return the current stack frame' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       frame = current_frame
@@ -146,7 +147,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  current_fragment_frame  #
 	############################
 
-  it 'can return the current fragment stack frame' do
+  it 'will return the current fragment stack frame' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       frame = current_frame
@@ -166,7 +167,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  merge_matched_parts_for_fragment_frame  #
 	############################################
 
-  it 'can merge matched parts from a fragment frame into prior frame after new frame is done with successful match' do
+  it 'will merge matched parts from a fragment frame into prior frame after new frame is done with successful match' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       fragment_frames = [ ]
@@ -239,7 +240,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  merge_matched_parts_for_frame  #
 	###################################
 
-  it 'can merge matched parts from a frame into prior frame after new frame is done with successful match' do
+  it 'will merge matched parts from a frame into prior frame after new frame is done with successful match' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       frames = [ ]
@@ -345,7 +346,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  merge_fragment_frame  #
 	##########################  
 
-  it 'can merge a fragment frame into prior frame after new frame is done with successful match' do
+  it 'will merge a fragment frame into prior frame after new frame is done with successful match' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       fragment_frames = [ ]
@@ -422,7 +423,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  merge_frame  #
 	#################
 
-  it 'can merge a frame into prior frame after new frame is done with successful match' do
+  it 'will merge a frame into prior frame after new frame is done with successful match' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       frames = [ ]
@@ -538,7 +539,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  initialize  #
 	################
 	
-  it 'can initialize for a request path string and an optional first attached path' do
+  it 'will initialize for a request path string and an optional first attached path' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_variable_get( :@path_parts ).should == [ 'some', 'request', 'path' ]
     stack = request_path.instance_variable_get( :@stack )
@@ -558,7 +559,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  attached_path              #
 	###############################
 	
-  it 'can attach to a path definition for match processing' do
+  it 'will attach to a path definition for match processing' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/' )
     stack = request_path.instance_variable_get( :@stack )
     stack.is_a?( ::Array ).should == true
@@ -581,7 +582,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  has_part_definition?  #
 	##########################
 
-  it 'can return whether a part definition exists at specified index' do
+  it 'will return whether a part definition exists at specified index' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.has_part_definition?( 0 ).should == true
     request_path.has_part_definition?( 1 ).should == true
@@ -608,7 +609,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  has_fragment_definition?  #
 	##############################
 
-  it 'can return whether a fragment definition exists at specified index' do
+  it 'will return whether a fragment definition exists at specified index' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       current_frame.fragment_stack = [ new_fragment_frame ]
@@ -631,7 +632,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  current_part_definition  #
 	#############################
   
-  it 'can return the current part definition' do
+  it 'will return the current part definition' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.current_part_definition.should == @mock_path_part_one
     request_path.instance_eval do
@@ -652,7 +653,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  current_fragment_definition  #
 	#################################
   
-  it 'can return the current fragment definition' do
+  it 'will return the current fragment definition' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       current_frame.fragment_stack = [ new_fragment_frame ]
@@ -690,7 +691,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  current_part  #
 	##################
 
-  it 'can return the current part definition' do
+  it 'will return the current part definition' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.current_part.should == 'some'
     request_path.instance_eval do
@@ -711,7 +712,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  next_part  #
 	###############
 
-  it 'can advance to the next part definition' do
+  it 'will advance to the next part definition' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.current_part.should == 'some'
     request_path.next_part
@@ -726,7 +727,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  declare_current_frame_has_fragments!  #
 	#########################################
 
-  it 'can declare that this frame has fragments (creating a fragment frame)' do
+  it 'will declare that this frame has fragments (creating a fragment frame)' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       current_frame.should_not == nil
@@ -746,7 +747,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  current_fragment  #
 	######################
   
-  it 'can return the current fragment' do
+  it 'will return the current fragment' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.current_fragment.should == nil
     request_path.instance_eval do
@@ -772,7 +773,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  has_remaining_fragment?  #
 	#############################
   
-  it 'can report whether it has a fragment definition remaining' do
+  it 'will report whether it has a fragment definition remaining' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.has_remaining_fragment?.should == false
     request_path.instance_eval do
@@ -802,7 +803,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  count_remaining_parts  #
 	###########################
   
-  it 'can count remaining parts' do
+  it 'will count remaining parts' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.count_remaining_parts.should == 3
     request_path.instance_eval do
@@ -839,7 +840,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  count_remaining_fragments  #
 	###############################
 	
-  it 'can count remaining fragments in this part' do
+  it 'will count remaining fragments in this part' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.count_remaining_fragments.should == 0
     request_path.instance_eval do
@@ -871,7 +872,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  matched_fragment  #
 	######################
 
-  it 'can return matched fragment for index (if a fragment has been matched)' do
+  it 'will return matched fragment for index (if a fragment has been matched)' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.declare_current_frame_has_fragments!
     request_path.instance_eval do
@@ -884,7 +885,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  matched_part  #
 	##################
 
-  it 'can return matched part for index (if a part has been matched)' do
+  it 'will return matched part for index (if a part has been matched)' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.instance_eval do
       current_frame.matched_for_definition = [ 'some' ]
@@ -896,7 +897,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  matched_part!  #
 	###################
 
-  it 'can declare a path part to match' do
+  it 'will declare a path part to match' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.matched_part!
     mock_path_part_one = @mock_path_part_one
@@ -928,7 +929,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  next_fragment  #
 	###################
 
-  it 'can advance to the next fragment definition' do
+  it 'will advance to the next fragment definition' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.next_part
     request_path.next_part
@@ -946,7 +947,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  matched_fragment!  #
 	#######################
 
-  it 'can declare a fragment to match' do
+  it 'will declare a fragment to match' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     request_path.next_part
     request_path.next_part
@@ -981,7 +982,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  match_failed!  #
 	###################
 
-  it 'can declare that the path match failed' do
+  it 'will declare that the path match failed' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     mock_path_part_one = @mock_path_part_one
     mock_path_part_two = @mock_path_part_two
@@ -1017,7 +1018,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  matched_optional_match!  #
 	#############################
 	
-  it 'can open an optional match with optional rollback and merge upon success' do
+  it 'will open an optional match with optional rollback and merge upon success' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     stack = request_path.instance_variable_get( :@stack )
     stack.count.should == 1
@@ -1118,7 +1119,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  matched_optional_fragment_match!  #
 	######################################
 	
-  it 'can open an optional fragment match with optional rollback and merge upon success' do
+  it 'will open an optional fragment match with optional rollback and merge upon success' do
     
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     stack = request_path.instance_variable_get( :@stack )
@@ -1278,7 +1279,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  end_look_ahead_match    #
 	############################
   
-  it 'can open a look-ahead match with optional rollback and merge upon success' do
+  it 'will open a look-ahead match with optional rollback and merge upon success' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     stack = request_path.instance_variable_get( :@stack )
     stack.count.should == 1
@@ -1344,7 +1345,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  look_ahead_match  #
 	######################
 
-  it 'can open and close a look-ahead match, performing single match between' do
+  it 'will open and close a look-ahead match, performing single match between' do
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     stack = request_path.instance_variable_get( :@stack )
     stack.count.should == 1
@@ -1380,7 +1381,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  matched_look_ahead_fragment!  #
 	##################################
   
-  it 'can declare match for a fragment that is not anchored to the left side of path part' do
+  it 'will declare match for a fragment that is not anchored to the left side of path part' do
     
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     
@@ -1429,7 +1430,7 @@ describe ::Perspective::Request::Path::RequestPath do
 	#  look_ahead_fragment_match  #
 	##################################
 	
-  it 'can attempt to match a fragment that is not anchored to the left side of path part' do
+  it 'will attempt to match a fragment that is not anchored to the left side of path part' do
     
     request_path = ::Perspective::Request::Path::RequestPath.new( '/some/request/path/', @mock_path )
     

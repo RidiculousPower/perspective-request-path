@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require_relative '../../../../lib/perspective/request/path.rb'
 
@@ -7,7 +8,7 @@ describe ::Perspective::Request::Path::PathPart::Regexp do
 	#  match  #
 	###########
 
-  it 'can match a constant path portion' do
+  it 'will match a constant path portion' do
     regexp_one = ::Perspective::Request::Path::PathPart::Regexp.new( /somepath/ )
     regexp_two = ::Perspective::Request::Path::PathPart::Regexp.new( /to/ )
     regexp_three = ::Perspective::Request::Path::PathPart::Regexp.new( /const/ )
